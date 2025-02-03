@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <title>
+      Cargo-Flow-Tracker - Compte créé
+    </title>
+    <style>
+      body {
+        font-family: 'Quicksand', sans-serif;
+        background-color: #fff;
+        /* Fond blanc */
+        color: #333;
+        padding: 20px;
+      }
+      
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ff7f00;
+        /* Fond orange clair */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      }
+      
+      h2 {
+        text-align: center;
+        color: #fff;
+        font-weight: bold;
+      }
+      
+      p {
+        text-align: justify;
+        color: #61d27e;
+        /* Vert pour les textes */
+        margin-bottom: 15px;
+        font-weight: bold;
+      }
+      
+      a {
+        color: #ff7f00;
+        /* Orange pour les liens */
+        text-decoration: none;
+      }
+      
+      a:hover {
+        text-decoration: underline;
+      }
+      
+      .signature {
+        margin-top: 20px;
+        border-top: 1px solid #fff;
+        padding-top: 10px;
+        font-style: italic;
+        text-align: center;
+        color: #61d27e;
+      }
+      
+      .font-url {
+        background-color: #fff !important;
+        border-radius: 5px;
+        padding: 7px;
+        font-weight: bold;
+        color: #ff7f00;
+        /* Couleur orange pour le texte du lien */
+      }
+      
+      .font-url a {
+        color: #218c74;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="container">
+      <h2>
+        CONFIRMATION DE MAIL
+      </h2>
+
+      <p>
+        Veuillez cliquer sur le lien ci-dessous pour confirmer votre adresse email.
+      </p>
+      <p class="font-url">
+        <a
+          href="https://audit-qcm.netlify.app/login?token={{ token }}&render=register&email={{ email }}&userId={{ userId }}"
+        >
+          {{ token }}{{ email }}{{ userId }}
+        </a>
+      </p>
+
+      <p class="signature">
+        Cordialement,<br />L'EQUIPE ORA ADVICES
+      </p>
+    </div>
+
+  </body>
+</html>
