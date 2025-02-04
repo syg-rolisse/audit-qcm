@@ -110,8 +110,7 @@ jobs:
             echo ".env ajouté"
             echo "Répertoire /opt/audit-qcm prêt"
 
-      # Copier les fichiers du Frontend vers le VPS
-      - name: Copy frontend files via SSH
+      - name: 📤 Copier les fichiers Frontend sur le VPS
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.VPS_IP }}
@@ -119,7 +118,8 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           source: "apps/*"
-          target: /opt/audit-qcm/apps/
+          target: "/opt/audit-qcm/apps/"
+          strip_components: 1
 
       # Copier le fichier docker-compose.yml sur le VPS
       - name: Copy docker-compose.yml via SSH
