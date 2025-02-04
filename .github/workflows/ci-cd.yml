@@ -132,7 +132,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /opt/audit-qcm
-            sudo docker-compose down || true
-            sudo docker-compose up --build -d
-            sudo docker image prune -f
-            sudo docker ps
+            docker-compose down || true
+            docker-compose up --build -d
+            docker image prune -f
+            docker ps
