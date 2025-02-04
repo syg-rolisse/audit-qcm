@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 📦 Installation de Docker Compose
-        run: sudo apt-get update && sudo apt-get install -y docker-compose
+        run: sudo apt-get update && sudo apt-get install -y docker-compose docker-compose --version
 
   backend:
     needs: setup
