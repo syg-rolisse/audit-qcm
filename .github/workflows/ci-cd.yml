@@ -62,6 +62,12 @@ jobs:
           target: /opt/audit-qcm/apis/
           strip_components: 1
 
+      # Copier le fichier .env sur le VPS
+      - name: 📤 Copier le fichier .env sur le VPS
+        run: |
+          echo "${{ secrets.API_ENV }}" > .env
+          echo "Fichier .env copié avec succès sur le VPS"
+
   deploy-apps:
     needs: deploy-apis
     runs-on: ubuntu-latest
@@ -121,6 +127,12 @@ jobs:
           port: ${{ secrets.PORT }}
           source: "docker-compose.yml"
           target: /opt/audit-qcm/
+
+        # Copier le fichier .env sur le VPS
+      - name: 📤 Copier le fichier .env sur le VPS
+        run: |
+          echo "${{ secrets.APP_ENV }}" > .env
+          echo "Fichier .env copié avec succès sur le VPS"
 
       # Lancer Docker Compose et démarrer les services sur le VPS
       - name: Deploy and start Docker services on VPS
