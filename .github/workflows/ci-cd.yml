@@ -118,7 +118,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          source: "apps/*"
+          source: "app/*"
           target: /opt/audit-qcm/apps/
 
       # Copier le fichier docker-compose.yml sur le VPS
