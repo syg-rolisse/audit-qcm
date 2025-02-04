@@ -18,7 +18,7 @@ jobs:
       - name: 📦 Installation de Docker Compose
         run: sudo apt-get update && sudo apt-get install -y docker-compose
 
-  backend:
+  deploy-apis:
     needs: setup
     runs-on: ubuntu-latest
     steps:
@@ -38,19 +38,32 @@ jobs:
         working-directory: ./apis
         run: npm install
 
+        # Connexion au VPS et préparation du répertoire
+      - name: 🔑 Connexion au VPS et préparation du répertoire
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_IP }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            mkdir -p /opt/audit-qcm/apis/
+            echo "Répertoire /opt/audit-qcm/apis/ prêt"
+
       # Copier les fichiers du Backend vers le VPS (structure respectée)
-      - name: Copy backend files to VPS via SSH
+      - name: 📤 Copier les fichiers Backend sur le VPS
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.VPS_IP }}
           username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
           source: "apis/*"
           target: /opt/audit-qcm/apis/
           strip_components: 1
 
-  frontend:
-    needs: backend
+  deploy-apps:
+    needs: deploy-apis
     runs-on: ubuntu-latest
     steps:
       - name: 🛠️ Checkout du code
@@ -73,13 +86,27 @@ jobs:
         working-directory: ./apps
         run: npm run build
 
+        # Connexion au VPS et préparation du répertoire
+      - name: 🔑 Connexion au VPS et préparation du répertoire
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_IP }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            mkdir -p /opt/audit-qcm/apps/
+            whoami
+            echo "Répertoire /opt/audit-qcm/apps/ prêt"
+
       # Copier les fichiers du Frontend vers le VPS
       - name: Copy frontend files via SSH
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.VPS_IP }}
           username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
           source: "apps/dist/*"
           target: /opt/audit-qcm/apps/
 
@@ -89,7 +116,8 @@ jobs:
         with:
           host: ${{ secrets.VPS_IP }}
           username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
           source: "docker-compose.yml"
           target: /opt/audit-qcm/
 
@@ -99,7 +127,8 @@ jobs:
         with:
           host: ${{ secrets.VPS_IP }}
           username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
           script: |
             cd /opt/audit-qcm
             docker-compose down || true
