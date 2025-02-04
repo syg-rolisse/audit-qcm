@@ -1,0 +1,139 @@
+name: Audit-Qcm CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛠️ Checkout du code
+        uses: actions/checkout@v4
+
+      - name: 📦 Installation de Docker Compose
+        run: sudo apt-get update && sudo apt-get install -y docker-compose
+
+  backend:
+    needs: setup
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres -d qcm"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: 🛠️ Checkout du code
+        uses: actions/checkout@v4
+
+      - name: 📦 Démarrer les services Docker Compose
+        run: docker-compose up -d audit-qcm-db
+
+      - name: 🕒 Attente que PostgreSQL soit prêt
+        run: sleep 30s
+
+      # Cache des dépendances Backend
+      - name: 🚚 Restaurer le cache des dépendances Backend
+        uses: actions/cache@v3
+        with:
+          path: ./apis/node_modules
+          key: ${{ runner.os }}-backend-node-modules-${{ hashFiles('**/apis/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-backend-node-modules-
+
+      - name: 📦 Installer les dépendances Backend
+        working-directory: ./apis
+        run: npm install
+
+      - name: 🔄 Exécuter les migrations
+        working-directory: ./apis
+        run: node ace migration:run && node ace db:seed
+
+      - name: 🚀 Lancer les tests Backend
+        working-directory: ./apis
+        run: npm test
+
+      # Copier les fichiers du Backend vers le VPS (structure respectée)
+      - name: Copy backend files to VPS via SSH
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_IP }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "apis/*"
+          target: /opt/audit-qcm/apis/
+          strip_components: 1
+
+  frontend:
+    needs: backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛠️ Checkout du code
+        uses: actions/checkout@v4
+
+      # Cache des dépendances Frontend
+      - name: 🚚 Restaurer le cache des dépendances Frontend
+        uses: actions/cache@v3
+        with:
+          path: ./apps/node_modules
+          key: ${{ runner.os }}-frontend-node-modules-${{ hashFiles('**/apps/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-frontend-node-modules-
+
+      - name: 📦 Installer les dépendances Frontend
+        working-directory: ./apps
+        run: npm install
+
+      - name: 🚀 Build de l'application Frontend
+        working-directory: ./apps
+        run: npm run build
+
+      - name: 🔍 Vérifier le linting
+        working-directory: ./apps
+        run: npm run lint
+
+      # Copier les fichiers du Frontend vers le VPS (structure respectée)
+      - name: Copy docker-compose.yml via SSH
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_IP }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "docker-compose.yml"
+          target: /opt/audit-qcm/
+
+      - name: Copy frontend files via SSH
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_IP }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "apps/dist/*"
+          target: /opt/audit-qcm/apps/
+
+      - name: Deploy
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_IP }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /opt/audit-qcm
+            docker-compose down || true
+            docker-compose up --build -d
+            docker image prune -f
+            docker ps
