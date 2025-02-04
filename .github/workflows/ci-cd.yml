@@ -65,16 +65,13 @@ jobs:
           target: /opt/audit-qcm/apis/
           strip_components: 1
 
-      - name: Copier le fichier .env sur le VPS
-        uses: appleboy/scp-action@v0.1.7
-        with:
-            host: ${{ secrets.VPS_IP }}
-            username: ${{ secrets.VPS_USER }}
-            password: ${{ secrets.PASSWORD }}
-            port: ${{ secrets.PORT }}
-            source: ".apis/.env"
-            target: "/opt/audit-qcm/apis/"
-   
+      # Copier le fichier .env sur le VPS
+      - name: 📤 Copier le fichier .env sur le VPS
+        run: |
+          echo "${{ secrets.APIS_ENV }}" > .env
+          echo "Fichier .env copié avec succès sur le VPS"
+          echo "APIS_ENV: ${{ secrets.APIS_ENV }}"
+
   deploy-apps:
     needs: deploy-apis
     runs-on: ubuntu-latest
@@ -137,15 +134,11 @@ jobs:
           source: "docker-compose.yml"
           target: /opt/audit-qcm/
 
-      - name: Copier le fichier .env sur le VPS
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.VPS_IP }}
-          username: ${{ secrets.VPS_USER }}
-          password: ${{ secrets.PASSWORD }}
-          port: ${{ secrets.PORT }}
-          source: ".apps/.env"
-          target: "/opt/audit-qcm/apps/"
+        # Copier le fichier .env sur le VPS
+      - name: 📤 Copier le fichier .env sur le VPS
+        run: |
+          echo "${{ secrets.APP_ENV }}" > .env
+          echo ".env copié avec succès"
 
       # Lancer Docker Compose et démarrer les services sur le VPS
       - name: Deploy and start Docker services on VPS
