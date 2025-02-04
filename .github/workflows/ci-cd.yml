@@ -47,6 +47,9 @@ jobs:
 
       - name: 📦 Démarrer les services Docker Compose
         run: docker-compose up -d audit-qcm-db
+        env:
+          NODE_ENV: production
+          DATABASE_URL: postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@audit-qcm-db:5432/${{ secrets.POSTGRES_DB }}
 
       - name: 🕒 Attente que PostgreSQL soit prêt
         run: sleep 30s

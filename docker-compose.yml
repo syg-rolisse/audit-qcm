@@ -30,7 +30,7 @@ services:
       - "3333:3333"
     depends_on:
       audit-qcm-db:
-        condition: service_healthy # S'assurer que la base de données est prête avant de démarrer
+        condition: service_healthy 
     env_file:
       - ./apis/.env
     networks:
