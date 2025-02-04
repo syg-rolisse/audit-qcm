@@ -16,7 +16,7 @@ jobs:
       #   uses: actions/checkout@v4 && sudo apt-get install -y docker-compose
 
       - name: 📦 update des packages
-        run: sudo apt-get update 
+        run: sudo apt-get update
 
   deploy-apis:
     needs: setup
@@ -47,6 +47,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
+            rm -rf /opt/audit-qcm/apis/
             mkdir -p /opt/audit-qcm/apis/
             cd /opt/audit-qcm/apis
             touch .env
@@ -92,10 +93,6 @@ jobs:
         working-directory: ./apps
         run: npm install
 
-      - name: 🚀 Build de l'application Frontend
-        working-directory: ./apps
-        run: npm run build
-
         # Connexion au VPS et préparation du répertoire
       - name: 🔑 Connexion au VPS et préparation du répertoire
         uses: appleboy/ssh-action@v1.2.0
@@ -106,7 +103,8 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             sudo chown -R ${{ secrets.VPS_USER }}:${{ secrets.VPS_USER }}/opt
-            sudo mkdir -p /opt/audit-qcm
+            rm -rf /opt/audit-qcm/apps/
+            sudo mkdir -p /opt/audit-qcm/apps
             cd /opt/audit-qcm/apps
             touch .env
             echo ".env ajouté"
@@ -120,7 +118,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          source: "apps/dist/*"
+          source: "apps/*"
           target: /opt/audit-qcm/apps/
 
       # Copier le fichier docker-compose.yml sur le VPS
