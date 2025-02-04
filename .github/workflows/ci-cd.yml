@@ -65,9 +65,11 @@ jobs:
       # Copier le fichier .env sur le VPS
       - name: 📤 Copier le fichier .env sur le VPS
         run: |
-          echo "${{ secrets.API_ENV }}" > .env
+          # Créer un fichier vide .env
+          touch /opt/audit-qcm/apis/.env
+          echo "${{ secrets.APIS_ENV }}" > .env
           echo "Fichier .env copié avec succès sur le VPS"
-          echo "API_ENV: ${{ secrets.API_ENV }}"
+          echo "APIS_ENV: ${{ secrets.APIS_ENV }}"
 
   deploy-apps:
     needs: deploy-apis
