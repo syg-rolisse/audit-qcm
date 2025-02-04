@@ -132,7 +132,7 @@ jobs:
       - name: 📤 Copier le fichier .env sur le VPS
         run: |
           echo "${{ secrets.APP_ENV }}" > .env
-          echo "Fichier .env copié avec succès sur le VPS"
+          echo ".env copié avec succès"
 
       # Lancer Docker Compose et démarrer les services sur le VPS
       - name: Deploy and start Docker services on VPS
