@@ -95,9 +95,9 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            mkdir -p /opt/audit-qcm/apps/
-            whoami
-            echo "Répertoire /opt/audit-qcm/apps/ prêt"
+            sudo mkdir -p /opt/audit-qcm
+            sudo chown -R ${{ secrets.VPS_USER }}:${{ secrets.VPS_USER }} /opt/audit-qcm
+            echo "Répertoire /opt/audit-qcm prêt"
 
       # Copier les fichiers du Frontend vers le VPS
       - name: Copy frontend files via SSH
@@ -131,7 +131,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /opt/audit-qcm
-            docker-compose down || true
-            docker-compose up --build -d
-            docker image prune -f
-            docker ps
+            sudo docker-compose down || true
+            sudo docker-compose up --build -d
+            sudo docker image prune -f
+            sudo docker ps
