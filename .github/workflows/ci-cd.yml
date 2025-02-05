@@ -49,9 +49,6 @@ jobs:
           script: |
             rm -rf /opt/audit-qcm/apis/
             mkdir -p /opt/audit-qcm/apis/
-            cd /opt/audit-qcm/apis
-            touch .env
-            echo ".env ajouté"
             echo "Répertoire /opt/audit-qcm/apis/ prêt"
 
       # Copier les fichiers du Backend vers le VPS (structure respectée)
@@ -68,10 +65,19 @@ jobs:
 
       # Copier le fichier .env sur le VPS
       - name: 📤 Copier le fichier .env sur le VPS
-        run: |
-          echo "kindji" > .env
-          echo "Fichier .env copié avec succès sur le VPS"
-          echo "APIS_ENV: ${{ secrets.APIS_ENV }}"
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_IP }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /opt/audit-qcm/apis
+            touch .env
+            echo ".env ajouté"
+            echo "kkkkkkkkkkkkkkkkkkkkkkkkk" > .env
+            echo "Fichier .env copié avec succès sur le VPS"
+            echo "APIS_ENV: ${{ secrets.APIS_ENV }}"
 
   deploy-apps:
     needs: deploy-apis
