@@ -63,7 +63,7 @@ jobs:
           target: /opt/audit-qcm/apis/
           strip_components: 1
 
-      # Copier le fichier .env sur le VPS
+      # Copier le fichier .env sur le VPS echo "APIS_ENV: ${{ secrets.APIS_ENV }}" >> .env
       - name: 📤 Copier le fichier .env sur le VPS
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -75,9 +75,8 @@ jobs:
             cd /opt/audit-qcm/apis
             touch .env
             echo ".env ajouté"
-            echo "kkkkkkkkkkkkkkkkkkkkkkkkk" > .env
+            echo "ZONE C4096" >> .env
             echo "Fichier .env copié avec succès sur le VPS"
-            echo "APIS_ENV: ${{ secrets.APIS_ENV }}"
 
   deploy-apps:
     needs: deploy-apis
