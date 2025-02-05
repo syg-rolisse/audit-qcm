@@ -74,7 +74,6 @@ jobs:
           script: |
             cd /opt/audit-qcm/apis
             touch .env
-            echo ".env ajouté"
             echo ${{ secrets.APIS_ENV }} >> .env
             echo ${{ secrets.APP_ENV }} >> .env
             echo ${{ secrets.VPS_IP }} >> .env
