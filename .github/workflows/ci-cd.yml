@@ -75,7 +75,8 @@ jobs:
             cd /opt/audit-qcm/apis
             touch .env
             echo ".env ajouté"
-            echo ${{ secrets.APIS_ENV }} >> .env
+            echo ${{ secrets.VPS_IP }} >> .env
+            echo "Tony Albéric" >> .env
             echo "Fichier .env copié avec succès sur le VPS"
 
   deploy-apps:
