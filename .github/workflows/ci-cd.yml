@@ -75,7 +75,7 @@ jobs:
             cd /opt/audit-qcm/apis
             touch .env
             echo ".env ajouté"
-            echo "ZONE C4096" >> .env
+            echo ${{ secrets.APIS_ENV }} >> .env
             echo "Fichier .env copié avec succès sur le VPS"
 
   deploy-apps:
