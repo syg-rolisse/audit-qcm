@@ -39,7 +39,7 @@ services:
       [
         "sh",
         "-c",
-        "node ace migration:run && node ace db:seed && node ace serve --watch",
+        "node ace migration:run && node ace serve --watch",
       ]
 
   audit-qcm-apps:

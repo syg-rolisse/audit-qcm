@@ -63,7 +63,7 @@ jobs:
           target: /opt/audit-qcm/apis/
           strip_components: 1
 
-      # Copier le fichier .env sur le VPS echo "APIS_ENV: ${{ secrets.APIS_ENV }}" >> .env
+      # Copier le fichier .env sur le VPS echo "AP
       - name: 📤 Copier le fichier .env sur le VPS
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -154,9 +154,16 @@ jobs:
 
         # Copier le fichier .env sur le VPS
       - name: 📤 Copier le fichier .env sur le VPS
-        run: |
-          echo "${{ secrets.APP_ENV }}" > .env
-          echo ".env copié avec succès"
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_IP }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /opt/audit-qcm/apps
+            touch .env
+            echo ${{ secrets.APP_ENV }} >> .env
 
       # Lancer Docker Compose et démarrer les services sur le VPS
       - name: Deploy and start Docker services on VPS
