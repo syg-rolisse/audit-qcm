@@ -69,7 +69,7 @@ jobs:
       # Copier le fichier .env sur le VPS
       - name: 📤 Copier le fichier .env sur le VPS
         run: |
-          echo "${{ secrets.APIS_ENV }}" > .env
+          echo "kindji" > .env
           echo "Fichier .env copié avec succès sur le VPS"
           echo "APIS_ENV: ${{ secrets.APIS_ENV }}"
 
