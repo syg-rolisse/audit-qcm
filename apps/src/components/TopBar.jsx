@@ -69,7 +69,7 @@ const TopBar = ({ userName, fullOverlay }) => {
   }, []);
 
   return (
-    <div className="tw-mt-4 tw-flex tw-justify-between tw-items-center tw-absolute tw-right-8">
+    <div className="tw-mt-4 tw-flex tw-justify-between tw-items-center tw-absolute tw-right-14">
       <div className="tw-text-xl tw-font-bold"></div>
       <div className="tw-relative">
         <button

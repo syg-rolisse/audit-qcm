@@ -6,11 +6,16 @@ import toast from "react-hot-toast";
 import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../config/axiosConfig";
+import RegisterButton from "../../components/RegisterButton";
 function Login({ onSwitch }) {
   const [showPassword, setShowPassword] = useState(false);
-
+  const user = JSON.parse(localStorage.getItem("user"));
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
+  };
+
+  const switchToRegister = () => {
+    onSwitch("register");
   };
 
   const {
@@ -30,8 +35,6 @@ function Login({ onSwitch }) {
     {
       onSuccess: (response) => {
         const user = response?.data?.user;
-
-        console.log(user);
 
         localStorage.setItem("user", JSON.stringify(user));
 
@@ -82,6 +85,14 @@ function Login({ onSwitch }) {
   return (
     <div className="row justify-content-center align-items-center tw-h-screen ">
       <div className="col-xxl-5 col-xl-7 col-lg-5 col-md-5 col-sm-8 col-10 max-sm:tw-mt-2">
+        <div className="tw-absolute tw-top-3 tw-right-16">
+          {!user?.id && (
+            <RegisterButton
+              texte="S'inscrire"
+              handleSwitch={switchToRegister}
+            />
+          )}
+        </div>
         <div className="p-3 tw-border tw-border-zinc-500 tw-rounded-lg">
           <div className="mb-3">
             <span className="tw-text-orange-500 tw-text-2xl tw-font-bold bariecito-policy">
@@ -89,11 +100,11 @@ function Login({ onSwitch }) {
             </span>
           </div>
           <p className="h5 fw-semibold bariecito-policy">Connexion</p>
-          <p className="mb-3 text-muted op-7 fw-normal">
+          <p className="mb-3 text-muted fw-normal">
             Renseigner vos identifiants pour vous connecter !
           </p>
 
-          <div className="text-center my-5 authentication-barrier">
+          <div className="text-center my-4 authentication-barrier">
             <span className="tw-text-orange-500 bariecito-policy">
               AUDIT-QCM
             </span>
@@ -132,7 +143,7 @@ function Login({ onSwitch }) {
                 Mot de passe
                 <a
                   href="#"
-                  className="float-end text-danger bariecito-policy"
+                  className="float-end text-danger "
                   onClick={() => onSwitch("forgot")}
                 >
                   Mot de passe oublié ?

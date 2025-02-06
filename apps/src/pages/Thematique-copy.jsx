@@ -1,20 +1,19 @@
-// import axiosInstance from "../config/axiosConfig";
-// import { SocketContext } from "../context/socket";
-import useThemeMode from "../components/useThemeMode";
-import AuthHeader from "../components/AuthHeader";
-import Offcanvas from "../components/Offcanvas";
 import { useMutation } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import ModalProgress from "../components/ModalProgress";
+import AuthHeader from "../components/AuthHeader";
 import axiosInstance from "../config/axiosConfig";
 import { SocketContext } from "../context/socket";
+import useThemeMode from "../components/useThemeMode";
+
 function Thematique() {
   const [thematique, setThematique] = useState([]);
   const [allThematique, setAllThematique] = useState([]);
   const [roundId] = useState(1);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
   const [meta, setMeta] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const socket = useContext(SocketContext);
@@ -22,7 +21,36 @@ function Thematique() {
   const [perpage, setPerPage] = useState(5);
   const [searchTerm, setSearchTerm] = useState("");
   const { themeMode } = useThemeMode();
-  const [isLoading, setIsLoading] = useState(false);
+  const fetchThematique = useMutation(
+    ({ page, perpage }) =>
+      axiosInstance.get(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/v1/allThematique?page=${page}&perpage=${perpage}&status=true`
+      ),
+    {
+      onSuccess: (response) => {
+        setThematique(response?.data?.thematiques?.data); // Enregistrer les données
+        setAllThematique(response?.data?.allThematiques); // Enregistrer les données
+        setMeta(response?.data?.thematiques?.meta);
+      },
+      onError: (error) => {
+        const errorMessage = error?.response?.data;
+
+        if (
+          typeof errorMessage === "string" &&
+          errorMessage.includes("Désolé")
+        ) {
+          toast.error(errorMessage, { duration: 5000 });
+        } else {
+          toast.error(errorMessage?.error || "Une erreur est survenue", {
+            autoClose: 1000,
+          });
+        }
+      },
+    }
+  );
+
   useEffect(() => {
     const scripts = [
       "assets/libs/@popperjs/core/umd/popper.min.js",
@@ -69,35 +97,11 @@ function Thematique() {
     };
   }, []);
 
-  const fetchThematique = useMutation(
-    ({ page, perpage }) =>
-      axiosInstance.get(
-        `${
-          import.meta.env.VITE_BACKEND_URL
-        }/api/v1/allThematique?page=${page}&perpage=${perpage}&status=true`
-      ),
-    {
-      onSuccess: (response) => {
-        setThematique(response?.data?.thematiques?.data); // Enregistrer les données
-        setAllThematique(response?.data?.allThematiques); // Enregistrer les données
-        setMeta(response?.data?.thematiques?.meta);
-      },
-      onError: (error) => {
-        const errorMessage = error?.response?.data;
-
-        if (
-          typeof errorMessage === "string" &&
-          errorMessage.includes("Désolé")
-        ) {
-          toast.error(errorMessage, { duration: 5000 });
-        } else {
-          toast.error(errorMessage?.error || "Une erreur est survenue", {
-            autoClose: 1000,
-          });
-        }
-      },
+  useEffect(() => {
+    if (page && perpage) {
+      fetchThematique.mutate({ page, perpage });
     }
-  );
+  }, [page, perpage]); // Ajouter uniquement les dépendances nécessaires
 
   const fetchText = useMutation(
     (data) =>
@@ -134,12 +138,6 @@ function Thematique() {
     }
   );
 
-  useEffect(() => {
-    if (page && perpage) {
-      fetchThematique.mutate({ page, perpage });
-    }
-  }, [page, perpage]);
-
   const handleThematiqueClick = (thematiqueId, thematiqueWording) => {
     localStorage.setItem("thematiqueId", thematiqueId);
     const user = JSON.parse(localStorage.getItem("user"));
@@ -157,15 +155,6 @@ function Thematique() {
       toast.error("Utilisateur non trouvé ou ID manquant.");
     }
   };
-
-  useEffect(() => {
-    if (themeMode === "light") {
-      document.body.style.backgroundColor = "white";
-    }
-    return () => {
-      document.body.style.backgroundColor = "";
-    };
-  }, [themeMode]);
 
   useEffect(() => {
     if (socket) {
@@ -190,13 +179,23 @@ function Thematique() {
     setTimeout(() => setIsLoading(false), 1000);
   }, []);
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="loader-overlay">
-  //       <div className="loader-spinner"></div>
-  //     </div>
-  //   );
-  // }
+  if (isLoading) {
+    return (
+      <div className="loader-overlay">
+        <div className="loader-spinner"></div>
+      </div>
+    );
+  }
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value); // Update search term
+  };
+
+  // eslint-disable-next-line no-unused-vars
+  const handlePerPageChange = (e) => {
+    setPerPage(Number(e.target.value));
+    setPage(1);
+  };
 
   const filteredThematique =
     searchTerm.trim() === ""
@@ -210,16 +209,6 @@ function Thematique() {
           return isWordingMatch || isIdMatch;
         });
 
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value); // Update search term
-  };
-
-  // eslint-disable-next-line no-unused-vars
-  const handlePerPageChange = (e) => {
-    setPerPage(Number(e.target.value));
-    setPage(1);
-  };
-
   return (
     <div>
       <ModalProgress
@@ -230,10 +219,6 @@ function Thematique() {
           navigate("/test");
         }}
       />
-
-      <Offcanvas />
-      <AuthHeader />
-
       <div
         className={`tw-grid tw-grid-cols-1 lg:tw-grid-cols-2 authentication mx-0 transition-opacity duration-700 ease-in-out ${
           isLoading ? "opacity-0" : "opacity-100"
@@ -279,6 +264,8 @@ function Thematique() {
           </div>
         </div>
         <div className=" tw-col-span-1">
+          <AuthHeader />
+
           <div className="col-xxl-6  col-xl-9 col-lg-6 justify-content-center tw-h-full tw-flex tw-justify-center align-items-center tw-w-full tw-my-9">
             <div className="tw-w-[85%] tw-border tw-border-zinc-300 tw-p-5 tw-rounded-md">
               <div className="mb-3">

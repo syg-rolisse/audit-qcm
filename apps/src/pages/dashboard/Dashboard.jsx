@@ -194,13 +194,13 @@ const Dashboard = () => {
             <nav>
               <div className="breadcrumb mb-0">
                 <div className="d-flex">
-                  <div className="input-group me-2">
+                  <div className="input-group me-2 tw-w-32">
                     <div className="input-group-text text-muted bg-primary text-fixed-white me-0 border-0 pe-0">
                       <i className="ri-calendar-line mt-1"></i>
                     </div>
                     <input
                       type="text"
-                      className="form-control flatpickr-input bg-primary text-fixed-white border-0 ps-2"
+                      className="form-control flatpickr-input bg-primary text-fixed-white border-0"
                       id="daterange"
                       placeholder="Paramètres"
                     />
@@ -313,11 +313,11 @@ const Dashboard = () => {
               </div>
               <div className="card-footer">
                 <span className="text-start">
-                  <i className="fe fe-user text-success me-1"></i>
+                  <i className="fe fe-grid text-secondary me-1"></i>
                   {thematiqueSummary.active} Actives
                 </span>
                 <span className="float-end">
-                  <i className="fe fe-user text-danger me-1"></i>
+                  <i className="fe fe-grid text-danger me-1"></i>
                   {thematiqueSummary.inactive} Inactives
                 </span>
               </div>
@@ -355,11 +355,11 @@ const Dashboard = () => {
               </div>
               <div className="card-footer">
                 <span className="text-start">
-                  <i className="fe fe-corner-left-up text-success me-1"></i>
+                  <i className="bi bi-clipboard-check text-success me-1"></i>
                   {testSummary.success | 0} Succès
                 </span>
                 <span className="float-end">
-                  <i className="fe fe-corner-left-down text-danger me-1"></i>
+                  <i className="bi bi-clipboard-check text-danger me-1"></i>
                   {testSummary.failed | 0} Echec
                 </span>
               </div>
@@ -397,69 +397,19 @@ const Dashboard = () => {
               </div>
               <div className="card-footer">
                 <span className="text-start">
-                  <i className="fe fe-dollar-sign text-success me-1"></i>
+                  <i className="bi bi-check-circle text-success me-1"></i>
                   {testSummary.availableAttestation} Attestation dispo
                 </span>
                 <span className="float-end">
-                  <i className="fe fe-trending-down text-danger me-1"></i>
+                  <i className="bi bi-check-circle text-danger me-1"></i>
                   {testSummary.unavailableAttestation} Non dispo
                 </span>
               </div>
             </div>
           </div>
         </div>
-        {/* ROW-1 END */}
 
-        {/* ROW-2 START */}
         <div className="row">
-          {/* <div className="col-sm-12 col-lg-6 col-xl-6 col-xxl-6">
-            <div className="card custom-card">
-              <div className="card-header justify-content-between">
-                <div>
-                  <div className="card-title">Graphiques</div>
-                </div>
-              </div>
-              <div className="card-body">
-                <div className="row py-1">
-                  <div className="col-3 d-flex align-items-center justify-content-center flex-wrap">
-                    <p className="text-muted mb-0 me-2">
-                      <span className="legend bg-primary br-7"></span>
-                      Products
-                    </p>
-                    <span className="badge bg-danger-transparent">
-                      <i className="bx bx-trending-down me-1"></i>5%
-                    </span>
-                  </div>
-                  <div className="col-3 d-flex align-items-center justify-content-center flex-wrap">
-                    <p className="text-muted mb-0 me-2">
-                      <span className="legend bg-secondary br-7"></span>
-                      Sales Month
-                    </p>
-                    <span className="badge bg-success-transparent">
-                      <i className="bx bx-trending-up me-1"></i>22%
-                    </span>
-                  </div>
-                  <div className="col-3 d-flex align-items-center justify-content-center flex-wrap">
-                    <p className="text-muted mb-0 me-2">
-                      <span className="legend bg-success br-7"></span>Cost
-                    </p>
-                    <span className="badge bg-success-transparent">
-                      <i className="bx bx-trending-up me-1"></i>33%
-                    </span>
-                  </div>
-                  <div className="col-3 d-flex align-items-center justify-content-center flex-wrap">
-                    <p className="text-muted mb-0 me-2">
-                      <span className="legend bg-danger br-7"></span>Revenue
-                    </p>
-                    <span className="badge bg-danger-transparent">
-                      <i className="bx bx-trending-down me-1"></i>13%
-                    </span>
-                  </div>
-                </div>
-                <div id="salesOverview"></div>
-              </div>
-            </div>
-          </div> */}
           <div className="col-sm-12 col-lg-12 col-xl-12 col-xxl-12">
             <div className="card custom-card">
               <div className="card-header justify-content-between">

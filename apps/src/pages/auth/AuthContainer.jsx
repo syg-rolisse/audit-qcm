@@ -8,21 +8,21 @@ import ForgotPassword from "./ForgotPassword";
 import Login from "./Login";
 import Register from "./Register";
 import RestPassword from "./RestPassword";
+import useThemeMode from "../../components/useThemeMode";
 
 function AuthContainer() {
   const [activeComponent, setActiveComponent] = useState("login");
   const [token, setToken] = useState(null);
   const [email, setEmail] = useState(null);
   const [userId, setUserId] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // Ajouter l'état du loader
-
-  //const user = JSON.parse(localStorage.getItem("user"));
+  const [isLoading, setIsLoading] = useState(true);
+  const { themeMode } = useThemeMode();
 
   const navigate = useNavigate();
   const nodeRef = useRef(null);
 
   useEffect(() => {
-    setIsLoading(true); // Démarrer le loader
+    setIsLoading(true);
 
     const urlParams = new URLSearchParams(window.location.search);
 
@@ -53,8 +53,7 @@ function AuthContainer() {
       setActiveComponent("reset-password");
     }
 
-    // Simuler un délai pour montrer le loader (facultatif)
-    setTimeout(() => setIsLoading(false), 1000); // Arrêter le loader après 1 seconde
+    setTimeout(() => setIsLoading(false), 1000);
   }, []);
 
   const activeAccount = useMutation(
@@ -101,6 +100,15 @@ function AuthContainer() {
     }
   };
 
+  useEffect(() => {
+    if (themeMode === "light") {
+      document.body.style.backgroundColor = "white";
+    }
+    return () => {
+      document.body.style.backgroundColor = "";
+    };
+  }, [themeMode]);
+
   // Composant du loader
   if (isLoading) {
     return (
@@ -140,7 +148,12 @@ function AuthContainer() {
                 INNOVATION - FORMATION - CONSEIL - EXPERTISE COMPTABLE
               </p>
 
-              <hr className="my-4 border-light w-100" />
+              {themeMode === "dark" ? (
+                <hr className="my-4 border-light w-100" />
+              ) : (
+                <hr className="my-4 border-green w-100" />
+              )}
+
               <p className="tw-text-orange-500">
                 Avec nous, vous êtes toujours
                 <span className="tw-text-green-600 tw-ml-1 font-weight-bold">

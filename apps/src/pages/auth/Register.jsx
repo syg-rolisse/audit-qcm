@@ -9,14 +9,16 @@ import "react-phone-input-2/lib/style.css";
 import PrivacyPolicyComponent from "../../components/PrivacyPolicyModal";
 import axiosInstance from "../../config/axiosConfig";
 import { SocketContext } from "../../context/socket";
+import RegisterButton from "../../components/RegisterButton";
+import useThemeMode from "../../components/useThemeMode";
 
 function Register({ onSwitch }) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [phoneNumber, setPhone] = useState("");
-
+  const user = JSON.parse(localStorage.getItem("user"));
   const socket = useContext(SocketContext);
-
+  const { themeMode } = useThemeMode();
   const {
     register,
     handleSubmit,
@@ -73,6 +75,10 @@ function Register({ onSwitch }) {
     }
   );
 
+  const switchToRegister = () => {
+    onSwitch("login");
+  };
+
   const onSubmit = (data) => {
     if (phoneNumber) {
       data.profilId = 3;
@@ -87,9 +93,18 @@ function Register({ onSwitch }) {
   return (
     <div className="row justify-content-center align-items-center tw-h-screen">
       <div className="col-xxl-5 col-xl-7 col-lg-5 col-md-5 col-sm-8 col-10 max-sm:tw-mt-28">
+        <div className="tw-absolute tw-top-3 tw-right-16">
+          {!user?.id && (
+            <RegisterButton
+              texte="Se connecter"
+              handleSwitch={switchToRegister}
+            />
+          )}
+        </div>
+
         <div className="p-3 tw-border tw-border-zinc-500 tw-rounded-lg">
           <p className="h5 fw-semibold bariecito-policy">Inscription</p>
-          <p className="mb-3 text-muted op-7 fw-normal">
+          <p className="mb-3 text-muted fw-normal">
             Créer un compte utilisateur gratuitement!
           </p>
 
@@ -145,8 +160,15 @@ function Register({ onSwitch }) {
                 inputStyle={{
                   width: "100%",
                   height: "45px",
-                  backgroundColor: "rgba(28, 39, 55, 1)",
-                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  backgroundColor:
+                    themeMode === "dark"
+                      ? "rgba(28, 39, 55, 1)"
+                      : "#fff",
+                  border:
+                    themeMode === "dark"
+                      ? "1px solid rgba(255, 255, 255, 0.1)"
+                      : "1px solid #ddd",
+                  color: themeMode === "dark" ? "#ffffff" : "#000000",
                 }}
                 enableSearch={true}
                 onChange={(phoneNumber, data) => {

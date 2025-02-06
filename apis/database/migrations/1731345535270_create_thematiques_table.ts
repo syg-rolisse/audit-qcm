@@ -10,6 +10,7 @@ export default class extends BaseSchema {
       table.string('wording').nullable()
       table.integer('purcent').nullable()
       table.string('support_url').nullable()
+      table.string('amount_to_pay').nullable()
       table.integer('point_total_question').nullable()
       table.integer('cumul').nullable()
       table.integer('duration').notNullable()

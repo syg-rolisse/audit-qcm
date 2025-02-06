@@ -63,7 +63,7 @@ jobs:
           target: /opt/audit-qcm/apis/
           strip_components: 1
 
-      # Copier le fichier .env sur le VPS echo "AP
+      # Copier le fichier .env sur le VPS 
       - name: 📤 Copier le fichier .env sur le VPS
         uses: appleboy/ssh-action@v1.2.0
         with:
