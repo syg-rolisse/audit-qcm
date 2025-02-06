@@ -6,7 +6,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - qcm_pg_data:/var/lib/postgresql/data
+      - pg_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=12345
@@ -36,12 +36,8 @@ services:
     networks:
       - qcm_network
     command:
-      [
-        "sh",
-        "-c",
-        "node ace migration:run && node ace db:seed && node ace serve --watch",
-      ]
-
+      ["sh", "-c", "node ace migration:run &&  && node ace serve --watch"]
+  # node ace db:seed
   audit-qcm-apps:
     build:
       context: ./apps
@@ -57,7 +53,7 @@ services:
     command: ["npm", "run", "dev"]
 
 volumes:
-  qcm_pg_data:
+  pg_data:
 
 networks:
   qcm_network:
