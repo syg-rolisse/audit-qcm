@@ -63,7 +63,7 @@ jobs:
           target: /opt/audit-qcm/apis/
           strip_components: 1
 
-      # Copier le fichier .env sur le VPS 
+      # Copier le fichier .env sur le VPS
       - name: 📤 Copier le fichier .env sur le VPS
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -179,3 +179,5 @@ jobs:
             docker-compose up --build -d
             docker image prune -f
             docker ps
+            docker logs qcm_db
+            docker logs qcm_apis

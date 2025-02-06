@@ -37,7 +37,7 @@ services:
       - qcm_network
     command:
       ["sh", "-c", "node ace migration:run && node ace serve --watch"]
-  # node ace db:seed
+  
   audit-qcm-apps:
     build:
       context: ./apps
