@@ -17,10 +17,10 @@ const AuthHeader = () => {
             <div className="header-element header-search d-lg-none d-block"></div>
 
             {/* <div className="header-element header-theme-mode"> */}
-            <div
-              className={`header-element header-theme-mode ${user?.id} ? 'tw-mr-4' : 'tw-mr-0'`}
+            {/* <div
+              className={`header-element header-theme-mode ${user?.id} ? 'tw-mr-4' : 'tw-mr-0' tw-mt-6 `}
             >
-              <a href="#" className="header-link layout-setting">
+              <a href="#" className="header-link layout-setting tw-bg-zinc-200 tw-flex tw-justify-center tw-items-center">
                 <span className="light-layout">
                   <i className="bx bx-moon fe-moon header-link-icon"></i>
                 </span>
@@ -28,7 +28,7 @@ const AuthHeader = () => {
                   <i className="bx bx-sun header-link-icon"></i>
                 </span>
               </a>
-            </div>
+            </div> */}
 
             <div className="-tw-mt-3">
               {user?.id && <TopBar fullOverlay={handleFullOverlay} />}

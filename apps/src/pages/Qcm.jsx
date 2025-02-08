@@ -13,6 +13,9 @@ import { SocketContext } from "../context/socket";
 import Offcanvas from "../components/Offcanvas";
 import Instruction from "../components/Instruction";
 import StatistiqueDuTest from "../components/StatistiqueDuTest";
+import TextOverWave from "../components/TextOverWave";
+import FooterOne from "../components/Footer";
+import useThemeMode from "../components/useThemeMode";
 
 function Qcm() {
   const [playAgain, setPlayAgain] = useState(true);
@@ -31,7 +34,7 @@ function Qcm() {
   const [isLoading, setIsLoading] = useState(true);
   const socket = useContext(SocketContext);
   const [selectedAnswers, setSelectedAnswers] = useState({});
-
+  const { themeMode } = useThemeMode();
   const thematiqueId = JSON.parse(localStorage.getItem("thematiqueId"));
 
   useEffect(() => {
@@ -94,6 +97,15 @@ function Qcm() {
     setTimeout(() => setIsLoading(false), 1000);
   }, []);
 
+  useEffect(() => {
+    if (themeMode === "light") {
+      document.body.style.backgroundColor = "white";
+    }
+    return () => {
+      document.body.style.backgroundColor = "";
+    };
+  }, [themeMode]);
+
   const navigate = useNavigate();
 
   const handleWatchTimer = (isRunning) => {
@@ -111,6 +123,7 @@ function Qcm() {
   };
 
   const handleSecondRond = () => {
+    alert("dctfvgbh");
     setPlayAgain(true);
     setRoundId(2);
   };
@@ -308,25 +321,19 @@ function Qcm() {
       <Offcanvas />
       <AuthHeader />
 
-      <div
-        className={`tw-grid tw-grid-cols-1 lg:tw-grid-cols-2 authentication mx-0 transition-opacity duration-700 ease-in-out ${
-          isLoading ? "opacity-0" : "opacity-100"
-        }`}
-      >
-        {/* Logo et message d'accueil */}
-        <LeftContent />
+      <div className={` ${isLoading ? "opacity-0" : "opacity-100"}`}>
+        <div>
+          <TextOverWave
+            texte1="Vous êtes prêt à relever le défi de cette thématique ?"
+            texte2="Répondez aux questions et testez vos connaissances ! 🧠💡"
+          />
+        </div>
 
         <div className=" tw-col-span-1">
           <div className="row justify-content-center align-items-center h-100">
             {/* tw-max-h-[80vh] tw-overflow-scroll */}
             <div className=" col-xxl-6 col-xl-9 col-lg-9 col-md-6 tw-py-5">
               <div className="p-md-0 p-3">
-                <p className="fw-semibold fs-14 mb-3 ">
-                  <span className="tw-bg-orange-500 tw-p-2 tw-rounded-lg">
-                    TEST - QCM
-                  </span>
-                </p>
-
                 <div>
                   {thematiqueId && playAgain ? (
                     <div>
@@ -516,16 +523,24 @@ function Qcm() {
                       </div>
                     </div>
                   ) : (
-                    <StatistiqueDuTest
-                      secondRond={handleSecondRond}
-                      currentTest={currentTest}
-                    />
+                    <div>
+                      <h1 className="banniere-title tw-text-5xl tw-ml-5 tw-md:text-6xl tw-leading-tight tw-font-bold">
+                        RESULTAT DU TEST
+                      </h1>
+
+                      <StatistiqueDuTest
+                        secondRond={handleSecondRond}
+                        currentTest={currentTest}
+                      />
+                    </div>
                   )}
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        <FooterOne />
       </div>
     </div>
   );

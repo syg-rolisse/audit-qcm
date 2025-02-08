@@ -1,17 +1,18 @@
 import PrintableCertificate from "./PrintableCertificate";
-
-export default function StatistiqueDuTest(currentTest, handleSecondRond) {
+import PropTypes from "prop-types";
+const StatistiqueDuTest = ({ currentTest, secondRond }) => {
   const user = JSON.parse(localStorage.getItem("user"));
 
   return (
     <div>
-      <div className="tw-p-6 tw-bg-gray-100 tw-rounded-lg tw-shadow-lg tw-space-y-4">
+      <div className="tw-p-6  tw-rounded-lg  tw-space-y-4">
+       
         <h1 className="tw-text-2xl tw-font-bold tw-text-green-700">
-          {currentTest.wording}
+          {currentTest?.thematiqueWording}
         </h1>
 
-        {currentTest && currentTest.round1 && currentTest.round2 ? (
-          <div className="tw-bg-gray-50 tw-p-3 tw-rounded-md tw-mt-2  tw-border tw-border-gray-300">
+        {currentTest && currentTest?.round1 && currentTest?.round2 ? (
+          <div className=" tw-p-3 tw-rounded-md tw-mt-2  tw-border tw-border-gray-300">
             <p className="tw-text-sm tw-text-green-700 tw-font-bold">
               Vous avez terminé les deux rounds de ce test.
             </p>
@@ -30,7 +31,7 @@ export default function StatistiqueDuTest(currentTest, handleSecondRond) {
                 Si oui, cliquez
                 <span
                   className="tw-font-bold tw-text-red-600 cursor-pointer tw-ml-2 tw-cursor-pointer"
-                  onClick={() => handleSecondRond}
+                  onClick={secondRond}
                 >
                   ici
                 </span>
@@ -60,7 +61,7 @@ export default function StatistiqueDuTest(currentTest, handleSecondRond) {
 
           <p className="tw-text-gray-500 tw-my-2">
             <strong>Créé le :</strong>{" "}
-            {new Date(currentTest.createdAt).toLocaleString()}
+            {new Date(currentTest?.createdAt).toLocaleString()}
           </p>
 
           {currentTest && Object.keys(currentTest).length > 0 ? (
@@ -70,37 +71,37 @@ export default function StatistiqueDuTest(currentTest, handleSecondRond) {
             >
               <div className="tw-bg-orange-100 tw-p-4 tw-rounded-md tw-border tw-border-orange-300 tw-my-4">
                 <p>
-                  <strong>Total Round 1 :</strong> {currentTest.totalRound1}{" "}
+                  <strong>Total Round 1 :</strong> {currentTest?.totalRound1}{" "}
                   Point (s)
                 </p>
                 <div
                   className="tw-w-full tw-h-4 tw-rounded-full tw-mt-2"
                   style={{
                     backgroundColor:
-                      currentTest.totalRound1 >= currentTest?.purcent
+                      currentTest?.totalRound1 >= currentTest?.purcent
                         ? "green"
                         : "red",
-                    width: `${currentTest.totalRound1}%`,
+                    width: `${currentTest?.totalRound1}%`,
                   }}
                 ></div>
                 <p>
-                  <strong>Total Round 2 :</strong> {currentTest.totalRound2}{" "}
+                  <strong>Total Round 2 :</strong> {currentTest?.totalRound2}{" "}
                   Point (s)
                 </p>
                 <div
                   className="tw-w-full tw-h-4 tw-rounded-full tw-mt-2"
                   style={{
                     backgroundColor:
-                      currentTest.totalRound2 >= currentTest?.purcent
+                      currentTest?.totalRound2 >= currentTest?.purcent
                         ? "green"
                         : "red",
-                    width: `${currentTest.totalRound2}%`,
+                    width: `${currentTest?.totalRound2}%`,
                   }}
                 ></div>
               </div>
 
-              {currentTest.totalRound1 >= currentTest?.purcent ||
-              currentTest.totalRound2 >= currentTest?.purcent ? (
+              {currentTest?.totalRound1 >= currentTest?.purcent ||
+              currentTest?.totalRound2 >= currentTest?.purcent ? (
                 <div className="tw-mt-4 tw-text-green-600">
                   <h3>
                     {" "}
@@ -111,7 +112,7 @@ export default function StatistiqueDuTest(currentTest, handleSecondRond) {
                     <PrintableCertificate
                       user={user}
                       currentTest={currentTest}
-                      thematique={currentTest.thematiqueWording}
+                      thematique={currentTest?.thematiqueWording}
                     />
                   </div>
                 </div>
@@ -135,4 +136,11 @@ export default function StatistiqueDuTest(currentTest, handleSecondRond) {
       </div>
     </div>
   );
-}
+};
+
+StatistiqueDuTest.propTypes = {
+  currentTest: PropTypes.object.isRequired,
+  secondRond: PropTypes.func.isRequired,
+};
+
+export default StatistiqueDuTest;

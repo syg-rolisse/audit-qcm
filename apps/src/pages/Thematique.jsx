@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import ModalProgress from "../components/ModalProgress";
 import axiosInstance from "../config/axiosConfig";
 import { SocketContext } from "../context/socket";
+import TextOverWave from "../components/TextOverWave";
+import FooterOne from "../components/FooterOne";
 function Thematique() {
   const [thematique, setThematique] = useState([]);
   const [allThematique, setAllThematique] = useState([]);
@@ -190,13 +192,13 @@ function Thematique() {
     setTimeout(() => setIsLoading(false), 1000);
   }, []);
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="loader-overlay">
-  //       <div className="loader-spinner"></div>
-  //     </div>
-  //   );
-  // }
+  if (isLoading) {
+    return (
+      <div className="loader-overlay">
+        <div className="loader-spinner"></div>
+      </div>
+    );
+  }
 
   const filteredThematique =
     searchTerm.trim() === ""
@@ -234,255 +236,182 @@ function Thematique() {
       <Offcanvas />
       <AuthHeader />
 
-      <div
-        className={`tw-grid tw-grid-cols-1 lg:tw-grid-cols-2 authentication mx-0 transition-opacity duration-700 ease-in-out ${
-          isLoading ? "opacity-0" : "opacity-100"
-        }`}
-      >
-        <div className="tw-border-r tw-border-r-zinc-600 tw-hidden lg:tw-block">
-          <div className="authentication-cover-content rounded tw-h-screen tw-flex tw-justify-center">
-            <div className="text-center p-5 d-flex align-items-center justify-content-center">
-              <div className="">
-                <div className="mb-5 tw-flex tw-justify-center">
-                  <img
-                    src="assets/images/logo/ora.png"
-                    className="authentication-image"
-                    alt="Logo"
-                  />
-                </div>
+      <div className={` ${isLoading ? "opacity-0" : "opacity-100"}`}>
+        <div>
+          <TextOverWave
+            texte1="Une thématique | Une connaissance prouvée"
+            texte2=" Choisissez en une et relever le défi ! 🚀"
+          />
+        </div>
+        <div className="max-sm:tw-w-[95%] max-md:tw-w-[90%] tw-w-[70%] tw-mx-auto tw-p-5 tw-rounded-md tw-mb-40">
+          <h1 className="max-sm:tw-text-lg max-lg:tw-text-3xl tw-p-3 tw-rounded-lg tw-text-5xl tw-md:text-6xl tw-leading-tight tw-font-bold">
+            CHOISISSEZ UNE THEMATIQUE !
+          </h1>
 
-                <div className="mb-5 tw-flex tw-flex-col tw-items-center">
-                  <div className="tw-flex tw-justify-end  tw-w-[70%] -tw-mt-9">
-                    <h2 className="tw-text-2xl tw-font-bold w-[60%] tw-text-green-600">
-                      ADVICES
-                    </h2>
-                  </div>
-                </div>
-
-                <p className="lead tw-font-bold">
-                  INNOVATION - FORMATION - CONSEIL - EXPERTISE COMPTABLE
-                </p>
-
-                {themeMode === "dark" ? (
-                  <hr className="my-4 border-light w-100" />
-                ) : (
-                  <hr className="my-4 border-green w-100" />
-                )}
-                <p className="tw-text-orange-500">
-                  Avec nous, vous êtes toujours
-                  <span className=" tw-text-green-600 tw-ml-1 font-weight-bold">
-                    un pas en avant!
-                  </span>
-                </p>
+          <div className="tw-space-y-4 tw-mt-4">
+            <div className="tw-flex tw-justify-start tw-items-center tw-space-x-2">
+              <div className="tw-flex tw-justify-center tw-items-center tw-bg-white op-9 tw-w-6 tw-rounded-md tw-shadow-md">
+                <i className="bx bx-download tw-text-red-600 tw-font-bold tw-text-xl header-link-icon"></i>
               </div>
+              <h3 className="tw-text-zinc-400">Télécharger le support.</h3>
+            </div>
+            <div className="tw-flex tw-justify-start tw-items-center tw-space-x-2">
+              <div className="tw-flex tw-justify-center tw-items-center tw-bg-white op-9 tw-w-6 tw-rounded-md tw-shadow-md">
+                <i className="bx bx-x-circle tw-text-red-600 tw-font-bold tw-text-xl header-link-icon"></i>
+              </div>
+              <h3 className="tw-text-zinc-400">Aucun support disponible.</h3>
             </div>
           </div>
-        </div>
-        <div className=" tw-col-span-1">
-          <div className="col-xxl-6  col-xl-9 col-lg-6 justify-content-center tw-h-full tw-flex tw-justify-center align-items-center tw-w-full tw-my-9">
-            <div className="tw-w-[85%] tw-border tw-border-zinc-300 tw-p-5 tw-rounded-md">
-              <div className="mb-3">
-                <a href="index.html">
-                  <img
-                    src="assets/images/brand-logos/desktop-logo.png"
-                    alt=""
-                    className="authentication-brand desktop-logo"
-                  />
-                  <img
-                    src="assets/images/brand-logos/desktop-white.png"
-                    alt=""
-                    className="authentication-brand desktop-dark"
-                  />
-                </a>
-              </div>
-              <div className="tw-my-6">
-                <span className="tw-bg-orange-500 tw-p-2 tw-rounded-lg tw-text-lg tw-text-white">
-                  Thématiques
-                </span>
-              </div>
 
-              <div className="tw-space-y-4 tw-mt-4">
-                <div className="tw-flex tw-justify-start tw-items-center tw-space-x-2">
-                  <div className="tw-flex tw-justify-center tw-items-center tw-bg-white op-9 tw-w-6 tw-rounded-md tw-shadow-md">
-                    <i className="bx bx-download tw-text-red-600 tw-font-bold tw-text-xl header-link-icon"></i>
-                  </div>
-                  <h3 className="tw-text-zinc-400">Télécharger le support.</h3>
-                </div>
-                <div className="tw-flex tw-justify-start tw-items-center tw-space-x-2">
-                  <div className="tw-flex tw-justify-center tw-items-center tw-bg-white op-9 tw-w-6 tw-rounded-md tw-shadow-md">
-                    <i className="bx bx-x-circle tw-text-red-600 tw-font-bold tw-text-xl header-link-icon"></i>
-                  </div>
-                  <h3 className="tw-text-zinc-400">
-                    Aucun support disponible.
-                  </h3>
-                </div>
+          <div className="tw-border tw-border-zinc-100 tw-mt-4 tw-p-4 tw-rounded-lg">
+            <div className="tw-flex tw-items-center tw-gap-4 tw-mt-4 tw-w-full">
+              <div className="tw-flex-1 tw-mt-3">
+                <input
+                  className="form-control form-control-xl tw-w-full"
+                  type="text"
+                  placeholder="Recherchez une thématique ici..."
+                  aria-label="Search Input"
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                />
               </div>
+            </div>
 
-              <div className="tw-flex tw-items-center tw-gap-4 tw-mt-4 tw-w-full">
-                {/* Section Afficher */}
-                {/* <div className="tw-flex tw-items-center tw-gap-2">
-                  <span>Afficher</span>
-                  <select
-                    className="form-select form-select-sm tw-h-10 tw-w-20"
-                    aria-label="Entries Select"
-                    onChange={handlePerPageChange}
-                    value={perpage}
-                  >
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                  </select>
-                </div> */}
-
-                {/* Section Recherche */}
-                <div className="tw-flex-1 tw-mt-3">
-                  <input
-                    className="form-control form-control-xl tw-w-full"
-                    type="text"
-                    placeholder="Recherchez une thématique ici..."
-                    aria-label="Search Input"
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                  />
-                </div>
-              </div>
-
-              <div className="tw-grid tw-grid-cols-3 tw-sm:grid-cols-1 tw-md:grid-cols-2 tw-lg:grid-cols-2 tw-gap-6 tw-mt-10 max-sm:tw-grid-cols-1">
-                {thematique?.length > 0 ? (
-                  <>
-                    {filteredThematique.map((cohorteItem, index) => (
+            <div className="tw-grid tw-grid-cols-3 tw-sm:grid-cols-1 tw-md:grid-cols-1 tw-lg:grid-cols-2 tw-gap-6 tw-mt-10 max-sm:tw-grid-cols-1">
+              {thematique?.length > 0 ? (
+                <>
+                  {filteredThematique.map((cohorteItem, index) => (
+                    <div
+                      key={index}
+                      className="tw-h-32 tw-max-w-md tw-w-full tw-shadow-lg tw-rounded-lg tw-overflow-hidden tw-border tw-border-gray-200"
+                    >
                       <div
-                        key={index}
-                        className="tw-h-32 tw-max-w-md tw-w-full tw-shadow-lg tw-rounded-lg tw-overflow-hidden tw-border tw-border-gray-200"
+                        className="tw-h-full tw-relative tw-flex tw-justify-center tw-items-center tw-bg-gradient-to-r tw-from-teal-500 tw-to-blue-600 tw-p-6"
+                        onClick={() =>
+                          handleThematiqueClick(
+                            cohorteItem.id,
+                            cohorteItem.wording
+                          )
+                        }
+                        style={{ cursor: "pointer" }}
                       >
-                        <div
-                          className="tw-h-full tw-relative tw-flex tw-justify-center tw-items-center tw-bg-gradient-to-r tw-from-teal-500 tw-to-blue-600 tw-p-6"
-                          onClick={() =>
-                            handleThematiqueClick(
-                              cohorteItem.id,
-                              cohorteItem.wording
-                            )
-                          }
-                          style={{ cursor: "pointer" }}
-                        >
-                          <div className="tw-absolute tw-top-2 tw-right-2 tw-px-2 tw-py-1 tw-bg-white op-9 tw-rounded-md tw-shadow-md">
-                            {cohorteItem?.supportUrl ? (
-                              <a
-                                href={`${
-                                  import.meta.env.VITE_BACKEND_URL
-                                }/uploads/${cohorteItem?.supportUrl}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="tw-text-red-600 tw-font-semibold"
-                                onClick={(e) => e.stopPropagation()} // Empêche le clic de remonter
-                              >
-                                <i className="bx bx-download tw-text-red-600 tw-font-bold tw-text-xl header-link-icon"></i>
-                              </a>
-                            ) : (
-                              <i
-                                onClick={(e) => e.stopPropagation()}
-                                className="bx bx-x-circle tw-text-red-600 tw-font-bold tw-text-xl header-link-icon"
-                              ></i>
-                            )}
-                          </div>
-
-                          <h3 className="tw-text-xl tw-font-semibold tw-text-white tw-text-center tw-mt-3">
-                            {cohorteItem.wording}
-                          </h3>
+                        <div className="tw-absolute tw-top-2 tw-right-2 tw-px-2 tw-py-1 tw-bg-white op-9 tw-rounded-md tw-shadow-md">
+                          {cohorteItem?.supportUrl ? (
+                            <a
+                              href={`${
+                                import.meta.env.VITE_BACKEND_URL
+                              }/uploads/${cohorteItem?.supportUrl}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="tw-text-red-600 tw-font-semibold"
+                              onClick={(e) => e.stopPropagation()} // Empêche le clic de remonter
+                            >
+                              <i className="bx bx-download tw-text-red-600 tw-font-bold tw-text-xl header-link-icon"></i>
+                            </a>
+                          ) : (
+                            <i
+                              onClick={(e) => e.stopPropagation()}
+                              className="bx bx-x-circle tw-text-red-600 tw-font-bold tw-text-xl header-link-icon"
+                            ></i>
+                          )}
                         </div>
-                      </div>
-                    ))}
 
-                    {/* Composant "Coming soon" */}
-                    <div className="tw-h-32 tw-max-w-md tw-w-full tw-shadow-lg tw-rounded-lg tw-overflow-hidden tw-border tw-border-gray-200">
-                      <div
-                        className="tw-h-full tw-flex tw-justify-center tw-items-center tw-bg-gradient-to-r tw-from-gray-100 tw-to-gray-300 tw-p-6"
-                        style={{
-                          cursor: "not-allowed",
-                          background:
-                            "linear-gradient(to right, rgba(200,200,200,0.3), rgba(150,150,150,0.3))",
-                        }}
-                      >
-                        <h3 className="tw-text-3xl tw-italic tw-font-semibold tw-text-gray-500 tw-text-center bariecito-policy">
-                          Coming soon...
+                        <h3 className="tw-text-xl tw-font-semibold tw-text-white tw-text-center tw-mt-3">
+                          {cohorteItem.wording}
                         </h3>
                       </div>
                     </div>
-                  </>
-                ) : (
-                  <div className="tw-col-span-full tw-bg-white tw-shadow-lg tw-rounded-lg tw-overflow-hidden tw-border tw-border-gray-200">
-                    <div className="tw-bg-gray-200 tw-p-6">
-                      <h1 className="tw-text-3xl tw-font-semibold tw-text-gray-700">
-                        Chargement...
-                      </h1>
+                  ))}
+
+                  {/* Composant "Coming soon" */}
+                  <div className="tw-h-32 tw-max-w-md tw-w-full tw-shadow-lg tw-rounded-lg tw-overflow-hidden tw-border tw-border-gray-200">
+                    <div
+                      className="tw-h-full tw-flex tw-justify-center tw-items-center tw-bg-gradient-to-r tw-from-gray-100 tw-to-gray-300 tw-p-6"
+                      style={{
+                        cursor: "not-allowed",
+                        background:
+                          "linear-gradient(to right, rgba(200,200,200,0.3), rgba(150,150,150,0.3))",
+                      }}
+                    >
+                      <h3 className="tw-text-3xl tw-italic tw-font-semibold tw-text-gray-500 tw-text-center bariecito-policy">
+                        Coming soon...
+                      </h3>
                     </div>
                   </div>
-                )}
-              </div>
-
-              <div className="card-footer tw-mt-8">
-                <div className="d-flex align-items-center">
-                  <div>
-                    Afficher les {perpage} suivant
-                    <i className="bi bi-arrow-right ms-2 fw-semibold"></i>
+                </>
+              ) : (
+                <div className="tw-col-span-full tw-bg-white tw-shadow-lg tw-rounded-lg tw-overflow-hidden tw-border tw-border-gray-200">
+                  <div className="tw-bg-gray-200 tw-p-6">
+                    <h1 className="tw-text-3xl tw-font-semibold tw-text-gray-700">
+                      Chargement...
+                    </h1>
                   </div>
-                  <div className="ms-auto">
-                    <nav
-                      aria-label="Page navigation"
-                      className="pagination-style-4"
-                    >
-                      <ul className="pagination mb-0 tw-space-x-2">
+                </div>
+              )}
+            </div>
+
+            <div className="card-footerOne tw-mt-8">
+              <div className="d-flex align-items-center">
+                <div>
+                  Afficher les {perpage} suivant
+                  <i className="bi bi-arrow-right ms-2 fw-semibold"></i>
+                </div>
+                <div className="ms-auto">
+                  <nav
+                    aria-label="Page navigation"
+                    className="pagination-style-4"
+                  >
+                    <ul className="pagination mb-0 tw-space-x-2">
+                      <li
+                        className={`page-item ${
+                          meta.previousPageUrl ? "" : "disabled"
+                        }`}
+                      >
+                        <button
+                          className="page-link"
+                          onClick={() => setPage(meta.currentPage - 1)}
+                          disabled={!meta.previousPageUrl}
+                        >
+                          Prev
+                        </button>
+                      </li>
+                      {[...Array(meta.lastPage).keys()].map((num) => (
                         <li
+                          key={num + 1}
                           className={`page-item ${
-                            meta.previousPageUrl ? "" : "disabled"
+                            meta.currentPage === num + 1 ? "active" : ""
                           }`}
                         >
                           <button
                             className="page-link"
-                            onClick={() => setPage(meta.currentPage - 1)}
-                            disabled={!meta.previousPageUrl}
+                            onClick={() => setPage(num + 1)}
                           >
-                            Prev
+                            {num + 1}
                           </button>
                         </li>
-                        {[...Array(meta.lastPage).keys()].map((num) => (
-                          <li
-                            key={num + 1}
-                            className={`page-item ${
-                              meta.currentPage === num + 1 ? "active" : ""
-                            }`}
-                          >
-                            <button
-                              className="page-link"
-                              onClick={() => setPage(num + 1)}
-                            >
-                              {num + 1}
-                            </button>
-                          </li>
-                        ))}
-                        <li
-                          className={`page-item ${
-                            meta.nextPageUrl ? "" : "disabled"
-                          }`}
+                      ))}
+                      <li
+                        className={`page-item ${
+                          meta.nextPageUrl ? "" : "disabled"
+                        }`}
+                      >
+                        <button
+                          className="page-link text-primary"
+                          onClick={() => setPage(meta.currentPage + 1)}
+                          disabled={!meta.nextPageUrl}
                         >
-                          <button
-                            className="page-link text-primary"
-                            onClick={() => setPage(meta.currentPage + 1)}
-                            disabled={!meta.nextPageUrl}
-                          >
-                            Next
-                          </button>
-                        </li>
-                      </ul>
-                    </nav>
-                  </div>
+                          Next
+                        </button>
+                      </li>
+                    </ul>
+                  </nav>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        <FooterOne />
       </div>
     </div>
   );

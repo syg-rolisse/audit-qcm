@@ -69,13 +69,13 @@ const TopBar = ({ userName, fullOverlay }) => {
   }, []);
 
   return (
-    <div className="tw-mt-4 tw-flex tw-justify-between tw-items-center tw-absolute tw-right-14">
+    <div className="tw-mt-4 tw-flex tw-justify-between tw-items-center tw-absolute tw-right-2">
       <div className="tw-text-xl tw-font-bold"></div>
       <div className="tw-relative">
         <button
           ref={buttonRef}
           onClick={toggleMenu}
-          className="tw-flex tw-items-center tw-space-x-2 tw-bg-gray-200 tw-text-white tw-py-2 tw-px-4 tw-rounded-full"
+          className="tw-flex tw-items-center tw-space-x-2 tw-bg-gray-400 tw-text-white tw-py-2 tw-px-4 tw-rounded-full"
         >
           <FaUserCircle className="tw-text-2xl" />
           <span>{userName}</span>

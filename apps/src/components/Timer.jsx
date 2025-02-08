@@ -67,7 +67,6 @@ const Timer = ({ userId, roundId, watchTimer, defaultDuration }) => {
       ),
     {
       onSuccess: (response) => {
-        console.log(response?.data?.test);
         const duration = response?.data?.test?.duration || 2; // Durée dynamique (2 par défaut)
 
         switch (response?.data?.tag) {
@@ -104,6 +103,8 @@ const Timer = ({ userId, roundId, watchTimer, defaultDuration }) => {
     const endTime = localStorage.getItem("timerEndTime");
     if (endTime) {
       const remainingTime = calculateTimeRemaining(endTime);
+      console.log(remainingTime);
+      
       setTimeRemaining(remainingTime);
       if (
         remainingTime.hours !== 0 ||
