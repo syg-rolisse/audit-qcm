@@ -9,19 +9,19 @@ const AuthMainLayout = () => {
 
   useEffect(() => {
     const scripts = [
-      "assets/libs/@popperjs/core/umd/popper.min.js",
-      "assets/libs/bootstrap/js/bootstrap.bundle.min.js",
-      "assets/js/defaultmenu.min.js",
-      "assets/libs/node-waves/waves.min.js",
-      // "assets/js/sticky.js",
-      "assets/libs/simplebar/simplebar.min.js",
-      "assets/js/simplebar.js",
-      "assets/libs/@simonwep/pickr/pickr.es5.min.js",
-      "assets/libs/flatpickr/flatpickr.min.js",
-      "assets/js/date-range.js",
-      "assets/libs/apexcharts/apexcharts.min.js",
-      "assets/js/index3.js",
-      "assets/js/custom.js",
+      // "assets/libs/@popperjs/core/umd/popper.min.js",
+      // "assets/libs/bootstrap/js/bootstrap.bundle.min.js",
+      // "assets/js/defaultmenu.min.js",
+      // "assets/libs/node-waves/waves.min.js",
+      // // "assets/js/sticky.js",
+      // "assets/libs/simplebar/simplebar.min.js",
+      // "assets/js/simplebar.js",
+      // "assets/libs/@simonwep/pickr/pickr.es5.min.js",
+      // "assets/libs/flatpickr/flatpickr.min.js",
+      // "assets/js/date-range.js",
+      // "assets/libs/apexcharts/apexcharts.min.js",
+      // "assets/js/index3.js",
+      // "assets/js/custom.js",
     ];
 
     const loadScriptsSequentially = async () => {
