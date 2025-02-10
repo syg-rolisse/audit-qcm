@@ -137,7 +137,10 @@ function AuthContainer() {
           </div>
 
           <h3 className="tw-text-3xl tw-font-bold tw-mb-4 max-lg:tw-text-lg ">
-            RAPIDE & <strong className="tw-animate-pulse">SIMPLE</strong>
+            RAPIDE &{" "}
+            <strong className="tw-animate-pulse tw-text-orange-500">
+              SIMPLE
+            </strong>
           </h3>
 
           <h3 className="tw-text-2xl tw-mt-4 max-lg:tw-text-sm max-sm:tw-text-[10px]">
@@ -164,7 +167,7 @@ function AuthContainer() {
           </div>
         </div>
 
-        <div className="tw-col-span-1 tw-bg-green-800"></div>
+        <div className="tw-col-span-1 tw-bg-green-200"></div>
       </div>
 
       <div className="">

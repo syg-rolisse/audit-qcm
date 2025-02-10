@@ -117,7 +117,7 @@ function ForgotPassword({ onSwitch }) {
                   >
                     {fetchVerifEmail.isLoading
                       ? "Chargement..."
-                      : "Envoyer le lien"}
+                      : "Envoyer"}
                   </button>
                 </div>
               </form>

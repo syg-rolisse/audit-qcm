@@ -97,7 +97,7 @@ function Register({ onSwitch }) {
         <RegisterButton texte="Se connecter" handleSwitch={switchToRegister} />
       )}
       <div className="tw-right-[15%] tw-h-screen tw-top-0 tw-fixed tw-flex tw-items-center max-sm:tw-justify-center max-sm:tw-right-0">
-      <div className="max-sm:tw-w-[80%] tw-w-[400px] tw-bg-white tw-shadow-2xl tw-rounded-lg tw-max-h-[70vh] tw-overflow-y-auto">
+        <div className="max-sm:tw-w-[80%] tw-w-[400px] tw-bg-white tw-shadow-2xl tw-rounded-lg tw-max-h-[70vh] tw-overflow-y-auto">
           <div className="p-3 tw-rounded-lg tw-border tw-border-gray-300 tw-m-3">
             <div className="">
               <Logo />
@@ -272,9 +272,7 @@ function Register({ onSwitch }) {
                     className="btn btn-success bariecito-policy"
                     disabled={fetchRegister.isLoading}
                   >
-                    {fetchRegister.isLoading
-                      ? "Chargement..."
-                      : "Créer un compte"}
+                    {fetchRegister.isLoading ? "Chargement..." : "S'inscrire"}
                   </button>
                 </div>
               </form>
