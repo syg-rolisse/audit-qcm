@@ -157,6 +157,7 @@ function CreateQuestion({ domainId, currentQuestionId, refreshQuestion }) {
       reset({
         wording: currentQuestion?.wording || "",
         point: currentQuestion?.point || "",
+        status: currentQuestion?.status || "",
       });
     }
   }, [currentQuestion, reset]);
@@ -254,7 +255,7 @@ function CreateQuestion({ domainId, currentQuestionId, refreshQuestion }) {
 
                 <div className="form-group">
                   <label htmlFor="point" className="form-label text-default">
-                    Point
+                    Cette question est noté sur combien ?
                   </label>
                   <input
                     type="number"
@@ -270,6 +271,18 @@ function CreateQuestion({ domainId, currentQuestionId, refreshQuestion }) {
                       {errors.point.message}
                     </span>
                   )}
+                </div>
+
+                <div className="form-check tw-flex tw-justify-center tw-items-center">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id="status"
+                    {...register("status")}
+                  />
+                  <label className="form-check-label tw-ml-2" htmlFor="status">
+                    Statut
+                  </label>
                 </div>
 
                 <div className="d-flex justify-content-between tw-mt-5">

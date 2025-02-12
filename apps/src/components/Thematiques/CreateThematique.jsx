@@ -39,8 +39,12 @@ function CreateThematique({ currentThematiqueId, refreshThematique }) {
       validationErrors.forEach((err) =>
         toast.error(err.message, {
           duration: 12000,
+          position: "bottom-right",
           style: {
-            zIndex: 9999,
+            position: "absolute",
+            bottom: "20px",
+            right: "20px",
+            zIndex: 200000,
           },
         })
       );

@@ -165,7 +165,7 @@ jobs:
             touch .env
             echo ${{ secrets.APP_ENV }} >> .env
 
-      # Lancer Docker Compose et démarrer les services sur le VPS
+      # Lancer Docker Compose et démarrer les services sur le VPS   docker-compose down || true
       - name: Deploy and start Docker services on VPS
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -175,7 +175,6 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /opt/audit-qcm
-            docker-compose down || true
             docker-compose up --build -d
             docker image prune -f
             docker ps

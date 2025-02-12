@@ -144,6 +144,7 @@ function CreateDomain({ currentDomainId, refreshDomain }) {
       reset({
         wording: currentDomain?.wording || "",
         point: currentDomain?.point || "",
+        status: currentDomain?.status || "",
         thematiqueId: currentDomain?.thematiqueId || "", // Ajout de thematiqueId
       });
     }
@@ -267,7 +268,7 @@ function CreateDomain({ currentDomainId, refreshDomain }) {
                       required: "La thématique est requise",
                     })}
                   >
-                    <option value="">Sélectionner une thématique</option>
+                    <option value="">Sélectionner une thématique...</option>
                     {thematiqueList.map((thematique) => (
                       <option key={thematique.id} value={thematique.id}>
                         {thematique.wording}
@@ -279,6 +280,18 @@ function CreateDomain({ currentDomainId, refreshDomain }) {
                       {errors.thematiqueId.message}
                     </span>
                   )}
+                </div>
+
+                <div className="form-check tw-flex tw-justify-center tw-items-center">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id="status"
+                    {...register("status")}
+                  />
+                  <label className="form-check-label tw-ml-2" htmlFor="status">
+                    Statut
+                  </label>
                 </div>
 
                 <div className="d-flex justify-content-between tw-mt-5">

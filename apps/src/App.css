@@ -6,7 +6,10 @@
   font-weight: 500;
   font-style: normal;
 }
-
+/* 
+.form-label{
+  color: gray !important;
+} */
 .scrolling-text {
   font-size: 1.25rem;
   color: #f97316; /* orange-500 */
@@ -174,9 +177,9 @@ th {
 /* .formCustom .form-group input {
   background-color: #e0e0e054;
 }*/
-.formCustom .form-group label {
+/* .formCustom .form-group label {
   color: rgb(253, 253, 253) !important;
-}
+} */
 
 .customModal .modal-content {
   background-color: transparent !important;
@@ -303,7 +306,7 @@ th {
 }
 
 @media (max-width: 644px) {
-.text-filigranne {
+  .text-filigranne {
     /*   font-size: 40px !important;
     margin-top: -3rem !important;
     width: 100% !important; */

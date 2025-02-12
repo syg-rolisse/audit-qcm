@@ -18,6 +18,7 @@ export const createQuestionValidator = vine.compile(
     point: vine.number(),
     userId: vine.number(),
     domainId: vine.number(),
+    status: vine.boolean().optional(),
   })
 )
 
@@ -25,5 +26,6 @@ export const updateQuestionValidator = vine.compile(
   vine.object({
     wording: vine.string().trim(),
     point: vine.number(),
+    status: vine.boolean().optional(),
   })
 )
