@@ -12,7 +12,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
-    "migrate": "node ace migration:run", 
+    "migrate": "node ace migration:run",
     "seed": "node ace db:seed"
   },
   "imports": {

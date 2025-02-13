@@ -112,7 +112,7 @@ function Login({ onSwitch }) {
                     htmlFor="signin-username"
                     className="form-label text-default"
                   >
-                    Nom d&apos;utilisateur
+                    Adresse mail
                   </label>
                   <input
                     type="text"
@@ -120,7 +120,7 @@ function Login({ onSwitch }) {
                       errors.email ? "is-invalid" : ""
                     }`}
                     id="signin-username"
-                    placeholder="Nom d'utilisateur"
+                    placeholder="Veuillez renseigner votre mail..."
                     {...register("email", {
                       required: "L'email est obligatoire",
                     })}
