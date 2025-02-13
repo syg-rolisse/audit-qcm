@@ -122,9 +122,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            sudo chown -R ${{ secrets.VPS_USER }}:${{ secrets.VPS_USER }}/opt
+            chown -R ${{ secrets.VPS_USER }}:${{ secrets.VPS_USER }}/opt
             rm -rf /opt/audit-qcm/apps/
-            sudo mkdir -p /opt/audit-qcm/apps
+            mkdir -p /opt/audit-qcm/apps
             cd /opt/audit-qcm/apps
             touch .env
             echo ".env ajouté"
