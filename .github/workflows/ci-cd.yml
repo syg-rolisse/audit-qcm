@@ -113,7 +113,7 @@ jobs:
         working-directory: ./apps
         run: npm install
 
-        # Connexion au VPS et préparation du répertoire
+        # Connexion au VPS et préparation du répertoire #chown -R ${{ secrets.VPS_USER }}:${{ secrets.VPS_USER }} /opt
       - name: 🔑 Connexion au VPS et préparation du répertoire
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -122,7 +122,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            chown -R ${{ secrets.VPS_USER }}:${{ secrets.VPS_USER }} /opt
             rm -rf /opt/audit-qcm/apps/
             mkdir -p /opt/audit-qcm/apps
             cd /opt/audit-qcm/apps

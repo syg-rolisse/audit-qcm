@@ -30,4 +30,4 @@ COPY --from=production-deps /app/node_modules /app/node_modules
 # Copie uniquement les fichiers compilés (pas les fichiers .ts)
 COPY --from=build /app/build /app
 
-EXPOSE 8080
+EXPOSE 3333
