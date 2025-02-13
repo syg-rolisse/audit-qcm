@@ -122,7 +122,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            chown -R ${{ secrets.VPS_USER }}:${{ secrets.VPS_USER }}/opt
+            chown -R ${{ secrets.VPS_USER }}:${{ secrets.VPS_USER }} /opt
             rm -rf /opt/audit-qcm/apps/
             mkdir -p /opt/audit-qcm/apps
             cd /opt/audit-qcm/apps
@@ -176,7 +176,6 @@ jobs:
           script: |
             cd /opt/audit-qcm
             docker-compose down || true 
-            docker-compose build --no-cache
             docker-compose up --build -d
             docker image prune -f
             docker ps
