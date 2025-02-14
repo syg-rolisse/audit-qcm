@@ -9,7 +9,7 @@ on:
       - develop
 
 jobs:
-  build-and-deploy:
+  docker-action:
     runs-on: ubuntu-latest # L'environnement d'exécution
 
     steps:
@@ -47,6 +47,7 @@ jobs:
           docker-compose ps  # Vérifie l'état des conteneurs définis dans docker-compose.yml
 
   deploy-apis:
+    needs: docker-action
     runs-on: ubuntu-latest
     steps:
       - name: 🛠️ Checkout du code
