@@ -7,12 +7,14 @@ services:
       - "5432:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
+
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: qcm_p@ss
-      POSTGRES_DB: qcmo
+      POSTGRES_DB: ora_audit_qcm
+      
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "postgres", "-d", "qcmo"]
+      test: ["CMD", "pg_isready", "-U", "postgres", "-d", "qcm"]
       interval: 30s
       retries: 5
       start_period: 60s
