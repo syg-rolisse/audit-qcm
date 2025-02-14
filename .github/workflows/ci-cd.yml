@@ -156,7 +156,20 @@ jobs:
       - name: 🛠️ Checkout du code
         uses: actions/checkout@v4
 
-      # 2. Connexion au VPS et préparation du répertoire
+      # Cache des dépendances Frontend
+      - name: 🚚 Restaurer le cache des dépendances Frontend
+        uses: actions/cache@v3
+        with:
+          path: ./apps/node_modules
+          key: ${{ runner.os }}-frontend-node-modules-${{ hashFiles('**/apps/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-frontend-node-modules-
+
+      - name: 📦 Installer les dépendances Frontend
+        working-directory: ./apps
+        run: npm install
+
+        # Connexion au VPS et préparation du répertoire #chown -R ${{ secrets.VPS_USER }}:${{ secrets.VPS_USER }} /opt
       - name: 🔑 Connexion au VPS et préparation du répertoire
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -169,8 +182,9 @@ jobs:
             mkdir -p /opt/audit-qcm/apps
             cd /opt/audit-qcm/apps
             touch .env
+            echo ".env ajouté"
+            echo "Répertoire /opt/audit-qcm prêt"
 
-      # 3. Copier les fichiers Frontend sur le VPS
       - name: 📤 Copier les fichiers Frontend sur le VPS
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -178,12 +192,22 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
-          source: |
-            apps/*
-            docker-compose.yml
+          source: "apps/*"
+          target: "/opt/audit-qcm/apps/"
+          strip_components: 1
+
+      # Copier le fichier docker-compose.yml sur le VPS
+      - name: Copy docker-compose.yml via SSH
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_IP }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.PORT }}
+          source: "docker-compose.yml"
           target: /opt/audit-qcm/
 
-      # 4. Copier le fichier .env sur le VPS
+        # Copier le fichier .env sur le VPS
       - name: 📤 Copier le fichier .env sur le VPS
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -196,7 +220,7 @@ jobs:
             touch .env
             echo ${{ secrets.APP_ENV }} >> .env
 
-      # 5. Lancer Docker Compose et démarrer les services sur le VPS
+      # Lancer Docker Compose et démarrer les services sur le VPS   docker-compose down || true
       - name: Deploy and start Docker services on VPS
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -206,7 +230,6 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /opt/audit-qcm
-            docker-compose build  
-            docker-compose up -d 
-            docker image prune -f 
+            docker-compose up --build -d
+            docker image prune -f
             docker ps
