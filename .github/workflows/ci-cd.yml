@@ -19,7 +19,7 @@ jobs:
 
       - name: 📤 Copier le fichier .env du back
         run: |
-          cd /home/runner/work/audit-qcm/audit-qcm
+          cd /home/runner/work/audit-qcm/audit-qcm/apis
           touch .env
           echo ${{ secrets.APIS_ENV_TZ }} >> .env
           echo ${{ secrets.APIS_ENV_PORT }} >> .env
@@ -45,7 +45,7 @@ jobs:
 
       - name: 📤 Copier le fichier .env du front
         run: |
-          cd /home/runner/work/audit-qcm/audit-qcm
+          cd /home/runner/work/audit-qcm/audit-qcm/apps
           touch .env
           echo ${{ secrets.APP_ENV }} >> .env
           echo "Fichier .env du front copié avec succès"
