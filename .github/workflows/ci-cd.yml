@@ -13,38 +13,42 @@ jobs:
     runs-on: ubuntu-latest # L'environnement d'exécution
 
     steps:
-      # 1. Cloner le dépôt
-      - name: Checkout Code
-        uses: actions/checkout@v4
+    # 1. Cloner le dépôt
+    - name: Checkout Code
+      uses: actions/checkout@v4
 
-      # 2. Cache des dépendances Node.js (si applicable)
-      - name: Cache Node.js dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/apis/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
+    # 2. Cache des dépendances Node.js (si applicable)
+    - name: Cache Node.js dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-modules-${{ hashFiles('**/apis/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-modules-
 
-      # 3. Installer Docker et Docker Compose
-      - name: Install Docker and Docker Compose
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker.io
-          sudo apt-get install -y docker-compose
-          sudo usermod -aG docker $USER  # Donne les droits d'exécution à Docker
+    # 3. Installer Docker et Docker Compose
+    - name: Install Docker and Docker Compose
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ca-certificates curl gnupg lsb-release
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo tee /etc/apt/trusted.gpg.d/docker.asc
+        echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+        sudo apt-get update
+        sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+        sudo apt-get install -y docker-compose
+        sudo usermod -aG docker $USER  # Donne les droits d'exécution à Docker
 
-      # 4. Lancer Docker Compose
-      - name: Run Docker Compose
-        run: |
-          cd ./apis  # Change le répertoire si nécessaire
-          sudo docker-compose up -d  # Lancer les conteneurs en arrière-plan
+    # 4. Lancer Docker Compose
+    - name: Run Docker Compose
+      run: |
+        cd ./apis  # Change le répertoire si nécessaire
+        sudo docker-compose up -d  # Lancer les conteneurs en arrière-plan
 
-      # 5. Vérifier que tous les conteneurs sont bien up
-      - name: Verify Docker Containers
-        run: |
-          docker ps  # Affiche les conteneurs actifs et vérifie leur statut
-          docker-compose ps  # Vérifie l'état des conteneurs définis dans docker-compose.yml
+    # 5. Vérifier que tous les conteneurs sont bien up
+    - name: Verify Docker Containers
+      run: |
+        docker ps  # Affiche les conteneurs actifs et vérifie leur statut
+        docker-compose ps  # Vérifie l'état des conteneurs définis dans docker-compose.yml
 
   deploy-apis:
     needs: docker-action
