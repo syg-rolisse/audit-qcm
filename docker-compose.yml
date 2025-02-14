@@ -7,8 +7,10 @@ services:
       - "5432:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
-    env_file:
-      - ./apis/.env
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "@qcm_p@ss"
+      POSTGRES_DB: ora_audit_qcm
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres", "-d", "ora_audit_qcm"]
       interval: 30s

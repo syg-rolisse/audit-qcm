@@ -76,7 +76,10 @@ jobs:
         run: |
           pwd
           ls -al
-          sudo docker-compose up -d  # Lancer les conteneurs en arrière-plan
+          sudo docker-compose down || true
+          sudo docker-compose up --build -d
+          sudo docker image prune -f
+          sudo docker ps
 
       # 5. Vérifier que tous les conteneurs sont bien up
       - name: Verify Docker Containers
