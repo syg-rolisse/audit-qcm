@@ -78,7 +78,6 @@ jobs:
           ls -al
           sudo docker volume ls
           sudo docker-compose down || true
-          sudo docker volume rm qcm_pg_data
           sudo docker-compose up --build -d
           sudo docker image prune -f
           sudo docker ps
