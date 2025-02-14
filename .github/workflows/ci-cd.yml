@@ -74,7 +74,8 @@ jobs:
       # 4. Lancer Docker Compose
       - name: Run Docker Compose
         run: |
-
+          pwd
+          ls -al
           sudo docker-compose up -d  # Lancer les conteneurs en arrière-plan
 
       # 5. Vérifier que tous les conteneurs sont bien up
