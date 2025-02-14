@@ -16,6 +16,41 @@ jobs:
       # 1. Cloner le dépôt
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          path: /home/runner/work/audit-qcm
+
+      - name: 📤 Copier le fichier .env du back
+        run: |
+          cd /home/runner/work/audit-qcm
+          touch .env
+          echo ${{ secrets.APIS_ENV_TZ }} >> .env
+          echo ${{ secrets.APIS_ENV_PORT }} >> .env
+          echo ${{ secrets.APIS_ENV_HOST }} >> .env
+          echo ${{ secrets.APIS_ENV_LOG_LEVEL }} >> .env
+          echo ${{ secrets.APIS_ENV_APP_KEY }} >> .env
+          echo ${{ secrets.APIS_ENV_NODE_ENV }} >> .env
+          echo ${{ secrets.APIS_ENV_DB_HOST }} >> .env
+          echo ${{ secrets.APIS_ENV_DB_PORT }} >> .env
+          echo ${{ secrets.APIS_ENV_DB_USER }} >> .env
+          echo ${{ secrets.APIS_ENV_DB_PASSWORD }} >> .env
+          echo ${{ secrets.APIS_ENV_DB_DATABASE }} >> .env
+          echo ${{ secrets.APIS_ENV_SMTP_HOST }} >> .env
+          echo ${{ secrets.APIS_ENV_SMTP_PORT }} >> .env
+          echo ${{ secrets.APIS_ENV_SMTP_USERNAME }} >> .env
+          echo ${{ secrets.APIS_ENV_SMTP_PASSWORD }} >> .env
+          echo ${{ secrets.APIS_ENV_CACHE_VIEWS }} >> .env
+          echo ${{ secrets.APIS_ENV_VITE_FRONT_URL }} >> .env
+          echo ${{ secrets.POSTGRES_USER }} >> .env
+          echo ${{ secrets.POSTGRES_PASSWORD }} >> .env
+          echo ${{ secrets.POSTGRES_DB }} >> .env
+          echo "Fichier .env copié avec succès"
+
+      - name: 📤 Copier le fichier .env du front
+        run: |
+          cd /home/runner/work/audit-qcm
+          touch .env
+          echo ${{ secrets.APP_ENV }} >> .env
+          echo "Fichier .env du front copié avec succès"
 
       # 2. Cache des dépendances Node.js (si applicable)
       - name: Cache Node.js dependencies
