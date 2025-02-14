@@ -9,36 +9,50 @@ on:
       - develop
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    steps:
-      # - name: 🛠️ Checkout du code
-      #   uses: actions/checkout@v4 && sudo apt-get install -y docker-compose
+  build-and-deploy:
+    runs-on: ubuntu-latest # L'environnement d'exécution
 
-      - name: 📦 update des packages
-        run: sudo apt-get update
+    steps:
+      # 1. Cloner le dépôt
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Cache des dépendances Node.js (si applicable)
+      - name: Cache Node.js dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/apis/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
+      # 3. Installer Docker et Docker Compose
+      - name: Install Docker and Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io
+          sudo apt-get install -y docker-compose
+          sudo usermod -aG docker $USER  # Donne les droits d'exécution à Docker
+
+      # 4. Lancer Docker Compose
+      - name: Run Docker Compose
+        run: |
+          cd ./apis  # Change le répertoire si nécessaire
+          sudo docker-compose up -d  # Lancer les conteneurs en arrière-plan
+
+      # 5. Vérifier que tous les conteneurs sont bien up
+      - name: Verify Docker Containers
+        run: |
+          docker ps  # Affiche les conteneurs actifs et vérifie leur statut
+          docker-compose ps  # Vérifie l'état des conteneurs définis dans docker-compose.yml
 
   deploy-apis:
-    needs: setup
     runs-on: ubuntu-latest
     steps:
       - name: 🛠️ Checkout du code
         uses: actions/checkout@v4
 
-      # Cache des dépendances Backend
-      - name: 🚚 Restaurer le cache des dépendances Backend
-        uses: actions/cache@v3
-        with:
-          path: ./apis/node_modules
-          key: ${{ runner.os }}-backend-node-modules-${{ hashFiles('**/apis/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-backend-node-modules-
-
-      - name: 📦 Installer les dépendances Backend
-        working-directory: ./apis
-        run: npm install
-
-        # Connexion au VPS et préparation du répertoire
+      # 2. Connexion au VPS et préparation du répertoire
       - name: 🔑 Connexion au VPS et préparation du répertoire
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -51,7 +65,7 @@ jobs:
             mkdir -p /opt/audit-qcm/apis/
             echo "Répertoire /opt/audit-qcm/apis/ prêt"
 
-      # Copier les fichiers du Backend vers le VPS (structure respectée)
+      # 3. Copier les fichiers du Backend vers le VPS (structure respectée)
       - name: 📤 Copier les fichiers Backend sur le VPS
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -63,7 +77,7 @@ jobs:
           target: /opt/audit-qcm/apis/
           strip_components: 1
 
-      # Copier le fichier .env sur le VPS
+      # 4. Copier le fichier .env sur le VPS
       - name: 📤 Copier le fichier .env sur le VPS
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -91,6 +105,9 @@ jobs:
             echo ${{ secrets.APIS_ENV_SMTP_PASSWORD }} >> .env
             echo ${{ secrets.APIS_ENV_CACHE_VIEWS }} >> .env
             echo ${{ secrets.APIS_ENV_VITE_FRONT_URL }} >> .env
+            echo ${{ secrets.POSTGRES_USER }} >> .env
+            echo ${{ secrets.POSTGRES_PASSWORD }} >> .env
+            echo ${{ secrets.POSTGRES_DB }} >> .env
             echo "Fichier .env copié avec succès sur le VPS"
 
   deploy-apps:
@@ -100,20 +117,7 @@ jobs:
       - name: 🛠️ Checkout du code
         uses: actions/checkout@v4
 
-      # Cache des dépendances Frontend
-      - name: 🚚 Restaurer le cache des dépendances Frontend
-        uses: actions/cache@v3
-        with:
-          path: ./apps/node_modules
-          key: ${{ runner.os }}-frontend-node-modules-${{ hashFiles('**/apps/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-frontend-node-modules-
-
-      - name: 📦 Installer les dépendances Frontend
-        working-directory: ./apps
-        run: npm install
-
-        # Connexion au VPS et préparation du répertoire #chown -R ${{ secrets.VPS_USER }}:${{ secrets.VPS_USER }} /opt
+      # 2. Connexion au VPS et préparation du répertoire
       - name: 🔑 Connexion au VPS et préparation du répertoire
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -126,9 +130,8 @@ jobs:
             mkdir -p /opt/audit-qcm/apps
             cd /opt/audit-qcm/apps
             touch .env
-            echo ".env ajouté"
-            echo "Répertoire /opt/audit-qcm prêt"
 
+      # 3. Copier les fichiers Frontend sur le VPS
       - name: 📤 Copier les fichiers Frontend sur le VPS
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -136,22 +139,12 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
-          source: "apps/*"
-          target: "/opt/audit-qcm/apps/"
-          strip_components: 1
-
-      # Copier le fichier docker-compose.yml sur le VPS
-      - name: Copy docker-compose.yml via SSH
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.VPS_IP }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.PORT }}
-          source: "docker-compose.yml"
+          source: |
+            apps/*
+            docker-compose.yml
           target: /opt/audit-qcm/
 
-        # Copier le fichier .env sur le VPS
+      # 4. Copier le fichier .env sur le VPS
       - name: 📤 Copier le fichier .env sur le VPS
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -164,7 +157,7 @@ jobs:
             touch .env
             echo ${{ secrets.APP_ENV }} >> .env
 
-      # Lancer Docker Compose et démarrer les services sur le VPS   docker-compose down || true
+      # 5. Lancer Docker Compose et démarrer les services sur le VPS
       - name: Deploy and start Docker services on VPS
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -174,7 +167,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /opt/audit-qcm
-            docker-compose down || true 
-            docker-compose up --build -d
-            docker image prune -f
+            docker-compose build  
+            docker-compose up -d 
+            docker image prune -f 
             docker ps
