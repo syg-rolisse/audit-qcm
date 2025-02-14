@@ -220,8 +220,12 @@ jobs:
             touch .env
             echo ${{ secrets.APP_ENV }} >> .env
 
-      # Lancer Docker Compose et démarrer les services sur le VPS   docker-compose down || true
-      - name: Deploy and start Docker services on VPS
+  deploy-docker:
+    needs: deploy-apps
+    runs-on: ubuntu-latest
+    steps:
+      # Etape 2: Connexion au VPS et démarrage des services Docker
+      - name: 🔑 Connexion au VPS et démarrer les services Docker
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.VPS_IP }}
@@ -229,7 +233,14 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
+            # Aller dans le répertoire où se trouve le docker-compose
             cd /opt/audit-qcm
+
+            # Démarrer les services Docker avec build si nécessaire
             docker-compose up --build -d
+
+            # Supprimer les images non utilisées pour libérer de l'espace
             docker image prune -f
+
+            # Afficher les conteneurs en cours d'exécution
             docker ps
