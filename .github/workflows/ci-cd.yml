@@ -16,12 +16,10 @@ jobs:
       # 1. Cloner le dépôt
       - name: Checkout Code
         uses: actions/checkout@v4
-        with:
-          path: /home/runner/work/audit-qcm
 
       - name: 📤 Copier le fichier .env du back
         run: |
-          cd /home/runner/work/audit-qcm
+          cd /home/runner/work/audit-qcm/audit-qcm
           touch .env
           echo ${{ secrets.APIS_ENV_TZ }} >> .env
           echo ${{ secrets.APIS_ENV_PORT }} >> .env
@@ -47,7 +45,7 @@ jobs:
 
       - name: 📤 Copier le fichier .env du front
         run: |
-          cd /home/runner/work/audit-qcm
+          cd /home/runner/work/audit-qcm/audit-qcm
           touch .env
           echo ${{ secrets.APP_ENV }} >> .env
           echo "Fichier .env du front copié avec succès"
