@@ -203,31 +203,10 @@ th {
   font-size: 120px;
 }
 
-@media (max-width: 1550px) {
-  .text-filigranne {
-    font-size: 90px !important;
-  }
-}
-
-@media (max-width: 1457px) {
-  .text-filigranne {
-    font-size: 100px !important;
-  }
-  .banniere-title {
-    font-size: 40px !important;
-  }
-  .texte1 {
-    font-size: 18px !important;
-    color: #fbbf24 !important;
-  }
-  .text2 {
-    display: none !important;
-  }
-}
 
 @media (max-width: 1291px) {
   .text-filigranne {
-    font-size: 80px !important;
+    font-size: 70px !important;
   }
 }
 
@@ -245,63 +224,25 @@ th {
 
 @media (max-width: 1044px) {
   .text-filigranne {
-    font-size: 60px !important;
-  }
-  .banniere-title {
-    font-size: 28px !important;
-  }
-  .texte1 {
-    font-size: 18px !important;
+    font-size: 80px !important;
   }
 }
 
 @media (max-width: 1022px) {
   .text-filigranne {
     font-size: 80px !important;
-    margin-left: 12rem !important;
-  }
-  .block-text12 {
-    margin-left: 6rem;
-  }
-  .banniere-title {
-    font-size: 30px !important;
-  }
-  .texte1 {
-    font-size: 25px !important;
   }
 }
 
 @media (max-width: 917px) {
   .text-filigranne {
     font-size: 70px !important;
-    margin-left: 3rem !important;
-  }
-  .block-text12 {
-    margin-left: 3rem;
-  }
-  .banniere-title {
-    font-size: 30px !important;
-  }
-  .texte1 {
-    font-size: 20px !important;
   }
 }
 
 @media (max-width: 806px) {
   .text-filigranne {
     font-size: 60px !important;
-    margin-left: 3rem !important;
-    margin-top: -2rem !important;
-  }
-  .block-text12 {
-    margin-left: 1rem;
-    margin-top: -2rem !important;
-  }
-  .banniere-title {
-    font-size: 35px !important;
-  }
-  .texte1 {
-    display: none !important;
   }
 }
 
@@ -309,14 +250,12 @@ th {
   .text-filigranne {
     /*   font-size: 40px !important;
     margin-top: -3rem !important;
-    width: 100% !important; */
-    display: none !important;
+    width: 100% !important; 
+    display: none !important;*/
   }
   .block-text12 {
-    margin-left: 3px;
-    margin-top: -2rem !important;
   }
-  .banniere-title {
+  /* .banniere-title {
     display: none !important;
-  }
+  } */
 }
