@@ -9,7 +9,7 @@ on:
       - develop
 
 jobs:
-  docker-action:
+  test-step:
     runs-on: ubuntu-latest # L'environnement d'exécution
 
     steps:
@@ -38,10 +38,16 @@ jobs:
           echo ${{ secrets.APIS_ENV_SMTP_PASSWORD }} >> .env
           echo ${{ secrets.APIS_ENV_CACHE_VIEWS }} >> .env
           echo ${{ secrets.APIS_ENV_VITE_FRONT_URL }} >> .env
-          echo ${{ secrets.POSTGRES_USER }} >> .env
-          echo ${{ secrets.POSTGRES_PASSWORD }} >> .env
-          echo ${{ secrets.POSTGRES_DB }} >> .env
           echo "Fichier .env copié avec succès"
+
+      - name: 📤 Copier le fichier .env.db du back
+        run: |
+          cd /home/runner/work/audit-qcm/audit-qcm/apis
+          touch .env.db
+          echo ${{ secrets.POSTGRES_USER }} >> .env.db
+          echo ${{ secrets.POSTGRES_PASSWORD }} >> .env.db
+          echo ${{ secrets.POSTGRES_DB }} >> .env.db
+          echo "Fichier .env.db copié avec succès"
 
       - name: 📤 Copier le fichier .env du front
         run: |
@@ -88,8 +94,8 @@ jobs:
           docker ps  # Affiche les conteneurs actifs et vérifie leur statut
           docker-compose ps  # Vérifie l'état des conteneurs définis dans docker-compose.yml
 
-  deploy-apis:
-    needs: docker-action
+  qcm-apis-deploy:
+    needs: test-step
     runs-on: ubuntu-latest
     steps:
       - name: 🛠️ Checkout du code
@@ -152,9 +158,16 @@ jobs:
             echo ${{ secrets.POSTGRES_PASSWORD }} >> .env
             echo ${{ secrets.POSTGRES_DB }} >> .env
             echo "Fichier .env copié avec succès sur le VPS"
+            echo "copie du .env.db"
+            cd /opt/audit-qcm/apis
+            touch .env.db
+            echo ${{ secrets.POSTGRES_USER }} >> .env.db
+            echo ${{ secrets.POSTGRES_PASSWORD }} >> .env.db
+            echo ${{ secrets.POSTGRES_DB }} >> .env.db
+            echo "Fichier .env.db copié avec succès"
 
-  deploy-apps:
-    needs: deploy-apis
+  qcm-apps-deploy:
+    needs: qcm-apis-deploy
     runs-on: ubuntu-latest
     steps:
       - name: 🛠️ Checkout du code
@@ -225,7 +238,7 @@ jobs:
             echo ${{ secrets.APP_ENV }} >> .env
 
   deploy-docker:
-    needs: deploy-apps
+    needs: qcm-apps-deploy
     runs-on: ubuntu-latest
     steps:
       # Etape 2: Connexion au VPS et démarrage des services Docker

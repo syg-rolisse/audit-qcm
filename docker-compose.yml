@@ -8,13 +8,11 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
 
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: qcm_p@ss
-      POSTGRES_DB: ora_audit_qcm
-      
+    env_file:
+      - ./apis/.env.db
+
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "postgres", "-d", "qcm"]
+      test: ["CMD", "pg_isready", "-U", "postgres", "-d", "ora_audit_qcm"]
       interval: 30s
       retries: 5
       start_period: 60s
@@ -45,7 +43,7 @@ services:
     build:
       context: ./apps
       dockerfile: Dockerfile
-    container_name: audit_qcm_apps
+    container_name: qcm_apps
     image: qcm-apps:latest
     restart: always
     ports:
