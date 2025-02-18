@@ -8,21 +8,21 @@ import ForgotPassword from "./ForgotPassword";
 import Login from "./Login";
 import Register from "./Register";
 import RestPassword from "./RestPassword";
+import useThemeMode from "../../components/useThemeMode";
 
 function AuthContainer() {
   const [activeComponent, setActiveComponent] = useState("login");
   const [token, setToken] = useState(null);
   const [email, setEmail] = useState(null);
   const [userId, setUserId] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // Ajouter l'état du loader
-
-  //const user = JSON.parse(localStorage.getItem("user"));
+  const [isLoading, setIsLoading] = useState(true);
+  const { themeMode } = useThemeMode();
 
   const navigate = useNavigate();
   const nodeRef = useRef(null);
 
   useEffect(() => {
-    setIsLoading(true); // Démarrer le loader
+    setIsLoading(true);
 
     const urlParams = new URLSearchParams(window.location.search);
 
@@ -53,8 +53,7 @@ function AuthContainer() {
       setActiveComponent("reset-password");
     }
 
-    // Simuler un délai pour montrer le loader (facultatif)
-    setTimeout(() => setIsLoading(false), 1000); // Arrêter le loader après 1 seconde
+    setTimeout(() => setIsLoading(false), 1000);
   }, []);
 
   const activeAccount = useMutation(
@@ -101,6 +100,15 @@ function AuthContainer() {
     }
   };
 
+  useEffect(() => {
+    if (themeMode === "light") {
+      document.body.style.backgroundColor = "white";
+    }
+    return () => {
+      document.body.style.backgroundColor = "";
+    };
+  }, [themeMode]);
+
   // Composant du loader
   if (isLoading) {
     return (
@@ -112,47 +120,57 @@ function AuthContainer() {
 
   return (
     <div
-      className={`tw-grid tw-grid-cols-1 lg:tw-grid-cols-2 authentication mx-0 transition-opacity duration-700 ease-in-out ${
+      className={` authentication mx-0 transition-opacity duration-700 ease-in-out ${
         isLoading ? "opacity-0" : "opacity-100"
       }`}
     >
-      <div className="tw-border-r tw-border-r-zinc-600 tw-hidden lg:tw-block">
-        <div className="authentication-cover-content rounded tw-h-screen tw-flex tw-justify-center">
-          <div className="text-center tw-fixed tw-top-1/2 tw-transform tw-translate-y-[-50%] p-5 d-flex align-items-center justify-content-center">
-            <div>
-              <div className="mb-5 tw-flex tw-justify-center">
-                <img
-                  src="assets/images/logo/ora.png"
-                  className="authentication-image"
-                  alt="Logo"
-                />
-              </div>
+      <div className="tw-grid tw-grid-cols-4 tw-h-screen">
+        <div className="tw-absolute tw-p-3 tw-rounded-lg tw-bg-opacity-80 tw-items-center tw-justify-center tw-m-36 max-xl:tw-m-5  max-sm:tw-hidden">
+          <div className="tw-w-full tw-space-y-3 tw-mb-6 tw-overflow-hidden tw-bg-green-200 tw-text-lg  tw-rounded-lg tw-p-4 ">
+            <div className="tw-text-gray-600 max-lg:tw-text-sm tw-font-semibold">
+              📘 La réussite commence avec une bonne préparation !
+            </div>
 
-              <div className="mb-5 tw-flex tw-flex-col tw-items-center">
-                <div className="tw-flex tw-justify-end tw-w-[70%] -tw-mt-9">
-                  <h2 className="tw-text-2xl tw-font-bold w-[60%] tw-text-green-600">
-                    ADVICES
-                  </h2>
-                </div>
-              </div>
-
-              <p className="lead tw-font-bold">
-                INNOVATION - FORMATION - CONSEIL - EXPERTISE COMPTABLE
-              </p>
-
-              <hr className="my-4 border-light w-100" />
-              <p className="tw-text-orange-500">
-                Avec nous, vous êtes toujours
-                <span className="tw-text-green-600 tw-ml-1 font-weight-bold">
-                  un pas en avant!
-                </span>
-              </p>
+            <div className="tw-text-green-600 max-lg:tw-text-sm">
+              Testez vos compétences avec des QCM interactifs 🚀
             </div>
           </div>
+
+          <h3 className="tw-text-3xl tw-font-bold tw-mb-4 max-lg:tw-text-lg ">
+            RAPIDE &{" "}
+            <strong className="tw-animate-pulse tw-text-orange-500">
+              SIMPLE
+            </strong>
+          </h3>
+
+          <h3 className="tw-text-2xl tw-mt-4 max-lg:tw-text-sm max-sm:tw-text-[10px]">
+            INNOVATION - FORMATION
+          </h3>
         </div>
+
+        <div className="tw-col-span-3 tw-bg-green-200 tw-bg-opacity-50 tw-flex tw-items-end tw-p-32 max-xl:tw-p-10 ">
+          <div className="max-sm:tw-hidden">
+            <p className="max-lg:tw-text-lg max-md:tw-text-sm tw-text-2xl tw-font-bold">
+              CONSEIL - EXPERTISE COMPTABLE
+            </p>
+
+            {themeMode === "dark" ? (
+              <hr className="my-4 border-light" />
+            ) : (
+              <hr className="my-4 border-green" />
+            )}
+
+            <p className="scrolling-text max-md:tw-text-sm">
+              Avec nous, vous êtes toujours
+              <span className="highlight">un pas en avant!</span>
+            </p>
+          </div>
+        </div>
+
+        <div className="tw-col-span-1 tw-bg-green-200"></div>
       </div>
 
-      <div className=" tw-col-span-1">
+      <div className="">
         <Transition
           in={activeComponent !== "login"}
           timeout={700}

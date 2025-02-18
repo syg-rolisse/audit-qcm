@@ -6,11 +6,17 @@ import toast from "react-hot-toast";
 import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../config/axiosConfig";
+import RegisterButton from "../../components/RegisterButton";
+import Logo from "../../components/Logo";
 function Login({ onSwitch }) {
   const [showPassword, setShowPassword] = useState(false);
-
+  const user = JSON.parse(localStorage.getItem("user"));
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
+  };
+
+  const switchToRegister = () => {
+    onSwitch("register");
   };
 
   const {
@@ -30,8 +36,6 @@ function Login({ onSwitch }) {
     {
       onSuccess: (response) => {
         const user = response?.data?.user;
-
-        console.log(user);
 
         localStorage.setItem("user", JSON.stringify(user));
 
@@ -80,114 +84,123 @@ function Login({ onSwitch }) {
   };
 
   return (
-    <div className="row justify-content-center align-items-center tw-h-screen ">
-      <div className="col-xxl-5 col-xl-7 col-lg-5 col-md-5 col-sm-8 col-10 max-sm:tw-mt-2">
-        <div className="p-3 tw-border tw-border-zinc-500 tw-rounded-lg">
-          <div className="mb-3">
-            <span className="tw-text-orange-500 tw-text-2xl tw-font-bold bariecito-policy">
-              ORA
-            </span>
-          </div>
-          <p className="h5 fw-semibold bariecito-policy">Connexion</p>
-          <p className="mb-3 text-muted op-7 fw-normal">
-            Renseigner vos identifiants pour vous connecter !
-          </p>
+    <div>
+      {!user?.id && (
+        <RegisterButton texte="S'inscrire" handleSwitch={switchToRegister} />
+      )}
 
-          <div className="text-center my-5 authentication-barrier">
-            <span className="tw-text-orange-500 bariecito-policy">
-              AUDIT-QCM
-            </span>
-          </div>
-          <form onSubmit={handleSubmit(onSubmit)} className="row gy-3">
-            <div className="col-xl-12 mt-0">
-              <label
-                htmlFor="signin-username"
-                className="form-label text-default"
-              >
-                Nom d&apos;utilisateur
-              </label>
-              <input
-                type="text"
-                className={`form-control form-control-lg  ${
-                  errors.email ? "is-invalid" : ""
-                }`}
-                id="signin-username"
-                placeholder="Nom d'utilisateur"
-                {...register("email", {
-                  required: "L'email est obligatoire",
-                })}
-              />
+      <div className="tw-right-[15%] tw-h-screen tw-top-0 tw-fixed tw-flex tw-items-center max-sm:tw-justify-center max-sm:tw-right-0">
+        <div className="max-sm:tw-w-[80%] tw-w-[400px] tw-bg-white tw-shadow-2xl tw-rounded-lg">
+          <div className="p-3 tw-rounded-lg tw-border tw-border-gray-300 tw-m-3">
+            <div className="">
+              <Logo />
+            </div>
+            <div className="-tw-mt-12">
+              <p className="h5 fw-semibold bariecito-policy">Connexion</p>
+              <p className="mb-3 text-muted fw-normal">
+                Renseigner vos identifiants pour vous connecter !
+              </p>
 
-              <div className="invalid-feedback">
-                <span className="tw-float-right">
-                  {errors.email && errors.email.message}
+              <div className="text-center my-4 authentication-barrier">
+                <span className="tw-text-orange-500 bariecito-policy">
+                  AUDIT-QCM
                 </span>
               </div>
-            </div>
-            <div className="col-xl-12 mb-3">
-              <label
-                htmlFor="signin-password"
-                className="form-label text-default d-block"
-              >
-                Mot de passe
-                <a
-                  href="#"
-                  className="float-end text-danger bariecito-policy"
-                  onClick={() => onSwitch("forgot")}
-                >
-                  Mot de passe oublié ?
-                </a>
-              </label>
-              <div className="input-group">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  className={`form-control form-control-lg ${
-                    errors.password ? "is-invalid" : ""
-                  }`}
-                  id="signin-password"
-                  placeholder="Mot de passe"
-                  {...register("password", {
-                    required: "Le mot de passe est obligatoire",
-                    minLength: { value: 6, message: "Au moins 06 caractères." },
-                  })}
-                />
-                {errors.password && (
+              <form onSubmit={handleSubmit(onSubmit)} className="row gy-3">
+                <div className="col-xl-12 mt-0">
+                  <label
+                    htmlFor="signin-username"
+                    className="form-label text-default"
+                  >
+                    Adresse mail
+                  </label>
+                  <input
+                    type="text"
+                    className={`form-control form-control-lg  ${
+                      errors.email ? "is-invalid" : ""
+                    }`}
+                    id="signin-username"
+                    placeholder="Veuillez renseigner votre mail..."
+                    {...register("email", {
+                      required: "L'email est obligatoire",
+                    })}
+                  />
+
                   <div className="invalid-feedback">
                     <span className="tw-float-right">
-                      {errors.password.message}
+                      {errors.email && errors.email.message}
                     </span>
                   </div>
-                )}
-                <button
-                  className="btn btn-light"
-                  type="button"
-                  onClick={togglePasswordVisibility}
-                >
-                  {showPassword ? <RiEyeLine /> : <RiEyeOffLine />}
-                </button>
+                </div>
+                <div className="col-xl-12 mb-3">
+                  <label
+                    htmlFor="signin-password"
+                    className="form-label text-default d-block"
+                  >
+                    Mot de passe
+                    <a
+                      href="#"
+                      className="float-end text-danger "
+                      onClick={() => onSwitch("forgot")}
+                    >
+                      Mot de passe oublié ?
+                    </a>
+                  </label>
+                  <div className="input-group">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      className={`form-control form-control-lg ${
+                        errors.password ? "is-invalid" : ""
+                      }`}
+                      id="signin-password"
+                      placeholder="Mot de passe"
+                      {...register("password", {
+                        required: "Le mot de passe est obligatoire",
+                        minLength: {
+                          value: 6,
+                          message: "Au moins 06 caractères.",
+                        },
+                      })}
+                    />
+                    {errors.password && (
+                      <div className="invalid-feedback">
+                        <span className="tw-float-right">
+                          {errors.password.message}
+                        </span>
+                      </div>
+                    )}
+                    <button
+                      className="btn btn-light"
+                      type="button"
+                      onClick={togglePasswordVisibility}
+                    >
+                      {showPassword ? <RiEyeLine /> : <RiEyeOffLine />}
+                    </button>
+                  </div>
+                </div>
+                <div className="col-xl-12 d-grid mt-2">
+                  <button
+                    type="submit"
+                    className="btn btn-success bariecito-policy"
+                    disabled={fetchLogin.isLoading}
+                  >
+                    {fetchLogin.isLoading ? "Chargement..." : "Se connecter"}
+                  </button>
+                </div>
+              </form>
+              <div className="text-center">
+                <p className="fs-12 text-muted mt-4">
+                  Vous n&apos;avez pas de compte ?{" "}
+                  <a
+                    href="#"
+                    className="text-success"
+                    onClick={() => onSwitch("register")}
+                  >
+                    Inscrivez-vous
+                  </a>
+                </p>
               </div>
             </div>
-            <div className="col-xl-12 d-grid mt-2">
-              <button
-                type="submit"
-                className="btn btn-success bariecito-policy"
-                disabled={fetchLogin.isLoading}
-              >
-                {fetchLogin.isLoading ? "Chargement..." : "Se connecter"}
-              </button>
-            </div>
-          </form>
-          <div className="text-center">
-            <p className="fs-12 text-muted mt-4">
-              Vous n&apos;avez pas de compte ?{" "}
-              <a
-                href="#"
-                className="text-success"
-                onClick={() => onSwitch("register")}
-              >
-                Inscrivez-vous
-              </a>
-            </p>
           </div>
         </div>
       </div>

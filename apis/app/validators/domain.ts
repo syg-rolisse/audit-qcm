@@ -16,6 +16,7 @@ export const createDomainValidator = vine.compile(
     wording: vine.string().trim(), // Ajout de `.required()` si nécessaire
     point: vine.number().optional(),
     userId: vine.number(),
+    status: vine.boolean().optional(),
     thematiqueId: vine.number(),
   })
 )
@@ -25,5 +26,6 @@ export const updateDomainValidator = vine.compile(
     wording: vine.string().trim(),
     point: vine.number().optional(),
     thematiqueId: vine.number(),
+    status: vine.boolean().optional(),
   })
 )

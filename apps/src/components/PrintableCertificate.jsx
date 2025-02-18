@@ -11,8 +11,8 @@ const PrintableCertificate = ({ currentTest, user, thematique }) => {
   const [totalRound1, setTotalRound1] = useState(0);
   const [totalRound2, setTotalRound2] = useState(0);
   const [date, setDate] = useState("");
-  const [signature] = useState("/assets/images/media/signature1.png");
-  const [logo] = useState("/assets/images/logo/ora.png");
+  const [signature] = useState("./assets/images/media/signature1.png");
+  const [logo] = useState("./assets/images/logo/ora.png");
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -115,7 +115,7 @@ const PrintableCertificate = ({ currentTest, user, thematique }) => {
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundImage: 'url("/assets/images/media/certificat.png")',
+                backgroundImage: 'url("./assets/images/media/certificat.png")',
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",

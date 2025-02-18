@@ -6,6 +6,32 @@
   font-weight: 500;
   font-style: normal;
 }
+/* 
+.form-label{
+  color: gray !important;
+} */
+.scrolling-text {
+  font-size: 1.25rem;
+  color: #f97316; /* orange-500 */
+  display: inline-block;
+}
+
+.scrolling-text .highlight {
+  color: #16a34a; /* green-600 */
+  font-weight: 800;
+  display: inline-block;
+  white-space: nowrap;
+  animation: scroll-left 5s linear infinite;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-2%);
+  }
+}
 
 .student-name {
   font-family: "Barriecito", system-ui;
@@ -151,9 +177,9 @@ th {
 /* .formCustom .form-group input {
   background-color: #e0e0e054;
 }*/
-.formCustom .form-group label {
+/* .formCustom .form-group label {
   color: rgb(253, 253, 253) !important;
-}
+} */
 
 .customModal .modal-content {
   background-color: transparent !important;
@@ -171,4 +197,65 @@ th {
   background: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+}
+
+.text-filigranne {
+  font-size: 120px;
+}
+
+
+@media (max-width: 1291px) {
+  .text-filigranne {
+    font-size: 70px !important;
+  }
+}
+
+@media (max-width: 1291px) {
+  .text-filigranne {
+    font-size: 80px !important;
+  }
+  .banniere-title {
+    font-size: 30px !important;
+  }
+  .texte1 {
+    font-size: 18px !important;
+  }
+}
+
+@media (max-width: 1044px) {
+  .text-filigranne {
+    font-size: 80px !important;
+  }
+}
+
+@media (max-width: 1022px) {
+  .text-filigranne {
+    font-size: 80px !important;
+  }
+}
+
+@media (max-width: 917px) {
+  .text-filigranne {
+    font-size: 70px !important;
+  }
+}
+
+@media (max-width: 806px) {
+  .text-filigranne {
+    font-size: 60px !important;
+  }
+}
+
+@media (max-width: 644px) {
+  .text-filigranne {
+    /*   font-size: 40px !important;
+    margin-top: -3rem !important;
+    width: 100% !important; 
+    display: none !important;*/
+  }
+  .block-text12 {
+  }
+  /* .banniere-title {
+    display: none !important;
+  } */
 }

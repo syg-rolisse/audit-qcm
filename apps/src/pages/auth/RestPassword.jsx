@@ -6,6 +6,8 @@ import toast from "react-hot-toast";
 import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
 import "react-phone-input-2/lib/style.css";
 import axiosInstance from "../../config/axiosConfig";
+import RegisterButton from "../../components/RegisterButton";
+import Logo from "../../components/Logo";
 
 function RestPassword({ token, email, userId, onSwitch }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,7 +18,10 @@ function RestPassword({ token, email, userId, onSwitch }) {
     reset,
     formState: { errors },
   } = useForm();
-
+  const user = JSON.parse(localStorage.getItem("user"));
+  const switchToRegister = () => {
+    onSwitch("login");
+  };
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
@@ -116,119 +121,119 @@ function RestPassword({ token, email, userId, onSwitch }) {
   };
 
   return (
-    <div className="row justify-content-center align-items-center tw-h-screen">
-      <div className="col-xxl-5 col-xl-7 col-lg-5 col-md-5 col-sm-8 col-10 max-sm:tw-mt-2">
-        <div className="p-3 tw-border tw-border-zinc-500 tw-rounded-lg">
-          <div className="mb-3">
-            <a href="index.html">
-              <img
-                src="../assets/images/brand-logos/desktop-logo.png"
-                alt=""
-                className="authentication-brand desktop-logo"
-              />
-              <img
-                src="../assets/images/brand-logos/desktop-white.png"
-                alt=""
-                className="authentication-brand desktop-dark"
-              />
-            </a>
-          </div>
-          <p className="h5 fw-semibold bariecito-policy">Mot de passe</p>
-          <p className="mb-3 text-muted op-7 fw-normal">
-            Saisissez votre nouveau passe
-          </p>
-
-          <div className="text-center my-4 authentication-barrier">
-            <span className="tw-text-orange-500 bariecito-policy">
-              AUDIT-QCM
-            </span>
-          </div>
-
-          <form onSubmit={handleSubmit(onSubmit)} className="row gy-3">
-            <div className="col-xl-12">
-              <label
-                htmlFor="signup-confirmpassword"
-                className="form-label text-default"
-              >
-                Mot de passe
-              </label>
-
-              <div className="input-group">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  className={`form-control form-control-lg ${
-                    errors.password ? "is-invalid" : ""
-                  }`}
-                  id="password"
-                  placeholder="Mot de passe"
-                  {...register("password", {
-                    required: "Le mot de passe est obligatoire",
-                    minLength: { value: 6, message: "Au moins 06 caractères." },
-                  })}
-                />
-
-                <button
-                  className="btn btn-light"
-                  type="button"
-                  onClick={togglePasswordVisibility}
-                >
-                  {showPassword ? <RiEyeLine /> : <RiEyeOffLine />}
-                </button>
-              </div>
+    <div>
+      {!user?.id && (
+        <RegisterButton texte="Se connecter" handleSwitch={switchToRegister} />
+      )}
+      <div className="tw-right-[15%] tw-h-screen tw-top-0 tw-fixed tw-flex tw-items-center max-sm:tw-justify-center max-sm:tw-right-0">
+        <div className="max-sm:tw-w-[80%] tw-w-[400px] tw-bg-white tw-shadow-2xl tw-rounded-lg ">
+          <div className="p-3 tw-rounded-lg tw-border tw-border-gray-300 tw-m-3">
+            <div className="">
+              <Logo />
             </div>
-
-            <div className="col-xl-12 mb-3">
-              <label
-                htmlFor="signup-confirmpassword"
-                className="form-label text-default"
-              >
-                Confirmation
-              </label>
-              <div className="input-group">
-                <input
-                  type={showConfirmPassword ? "text" : "password"}
-                  className={`form-control form-control-lg ${
-                    errors.password ? "is-invalid" : ""
-                  }`}
-                  id="confirm"
-                  placeholder="Mot de passe"
-                  {...register("confirm", {
-                    required: "Le mot de passe est obligatoire",
-                    minLength: { value: 6, message: "Au moins 06 caractères." },
-                  })}
-                />
-
-                <button
-                  className="btn btn-light"
-                  type="button"
-                  onClick={toggleConfirmPasswordVisibility}
-                >
-                  {showConfirmPassword ? <RiEyeLine /> : <RiEyeOffLine />}
-                </button>
-              </div>
-            </div>
-
-            <div className="col-xl-12 d-grid mt-2">
-              <button
-                type="submit"
-                className="btn btn-success bariecito-policy"
-                disabled={changePassword.isLoading}
-              >
-                {changePassword.isLoading ? "Chargement..." : "Modifier"}
-              </button>
-            </div>
-          </form>
-          <div className="text-center">
-            <p className="fs-12 text-muted mt-4">
-              Vous avez déjà un compte?
-              <a
-                href="#"
-                className="text-success"
-                onClick={() => onSwitch("login")}
-              >
-                Connectez-vous
-              </a>
+            <p className="h5 fw-semibold bariecito-policy">Mot de passe</p>
+            <p className="mb-3 text-muted op-7 fw-normal">
+              Saisissez votre nouveau passe
             </p>
+
+            <div className="text-center my-4 authentication-barrier">
+              <span className="tw-text-orange-500 bariecito-policy">
+                AUDIT-QCM
+              </span>
+            </div>
+
+            <form onSubmit={handleSubmit(onSubmit)} className="row gy-3">
+              <div className="col-xl-12">
+                <label
+                  htmlFor="signup-confirmpassword"
+                  className="form-label text-default"
+                >
+                  Mot de passe
+                </label>
+
+                <div className="input-group">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className={`form-control form-control-lg ${
+                      errors.password ? "is-invalid" : ""
+                    }`}
+                    id="password"
+                    placeholder="Mot de passe"
+                    {...register("password", {
+                      required: "Le mot de passe est obligatoire",
+                      minLength: {
+                        value: 6,
+                        message: "Au moins 06 caractères.",
+                      },
+                    })}
+                  />
+
+                  <button
+                    className="btn btn-light"
+                    type="button"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? <RiEyeLine /> : <RiEyeOffLine />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="col-xl-12 mb-3">
+                <label
+                  htmlFor="signup-confirmpassword"
+                  className="form-label text-default"
+                >
+                  Confirmation
+                </label>
+                <div className="input-group">
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    className={`form-control form-control-lg ${
+                      errors.password ? "is-invalid" : ""
+                    }`}
+                    id="confirm"
+                    placeholder="Mot de passe"
+                    {...register("confirm", {
+                      required: "Le mot de passe est obligatoire",
+                      minLength: {
+                        value: 6,
+                        message: "Au moins 06 caractères.",
+                      },
+                    })}
+                  />
+
+                  <button
+                    className="btn btn-light"
+                    type="button"
+                    onClick={toggleConfirmPasswordVisibility}
+                  >
+                    {showConfirmPassword ? <RiEyeLine /> : <RiEyeOffLine />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="col-xl-12 d-grid mt-2">
+                <button
+                  type="submit"
+                  className="btn btn-success bariecito-policy"
+                  disabled={changePassword.isLoading}
+                >
+                  {changePassword.isLoading ? "Chargement..." : "Modifier"}
+                </button>
+              </div>
+            </form>
+            <div className="text-center">
+              <p className="fs-12 text-muted mt-4">
+                Vous avez déjà un compte?
+                <a
+                  href="#"
+                  className="text-success"
+                  onClick={() => onSwitch("login")}
+                >
+                  Connectez-vous
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </div>

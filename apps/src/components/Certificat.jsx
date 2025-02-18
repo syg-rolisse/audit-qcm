@@ -16,7 +16,7 @@ const Certificat = ({
       id="certificate-container"
       className="tw-rounded-lg tw-text-center certificate-container"
       style={{
-        backgroundImage: 'url("/assets/images/media/certificat.png")',
+        backgroundImage: 'url("./assets/images/media/certificat.png")',
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
@@ -34,7 +34,9 @@ const Certificat = ({
     >
       <div className="tw-text-left -tw-mt-40 tw-space-y-3">
         <div className="">
-          <h1 className="tw-text-2xl tw-text-gray-800 tw-font-bold">{thematique}</h1>
+          <h1 className="tw-text-2xl tw-text-gray-800 tw-font-bold">
+            {thematique}
+          </h1>
         </div>
 
         <div className="student-name tw-text-center">
@@ -75,7 +77,7 @@ Certificat.defaultProps = {
   totalRound2: 0,
   date: new Date().toLocaleDateString(),
   thematique: "Thématique",
-  signature: "/assets/images/media/signature1.png",
+  signature: "./assets/images/media/signature1.png",
 };
 
 export default Certificat;

@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import axiosInstance from "../config/axiosConfig";
 import Profile from "./Profile";
 
@@ -13,7 +13,7 @@ const TopBar = ({ userName, fullOverlay }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const token = user?.token?.token;
 
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const { mutate, isLoading, isError, error } = useMutation(
     () =>
@@ -30,7 +30,8 @@ const TopBar = ({ userName, fullOverlay }) => {
       onSuccess: () => {
         localStorage.removeItem("user");
         setIsConfirmLogoutOpen(false);
-        navigate("/");
+        //navigate("/");
+        window.location.replace("/");
       },
       onError: (err) => {
         console.error("Erreur lors de la déconnexion:", err);
@@ -69,13 +70,13 @@ const TopBar = ({ userName, fullOverlay }) => {
   }, []);
 
   return (
-    <div className="tw-mt-4 tw-flex tw-justify-between tw-items-center tw-absolute tw-right-8">
+    <div className="tw-mt-4 tw-flex tw-justify-between tw-items-center tw-absolute tw-right-2">
       <div className="tw-text-xl tw-font-bold"></div>
       <div className="tw-relative">
         <button
           ref={buttonRef}
           onClick={toggleMenu}
-          className="tw-flex tw-items-center tw-space-x-2 tw-bg-gray-200 tw-text-white tw-py-2 tw-px-4 tw-rounded-full"
+          className="tw-flex tw-items-center tw-space-x-2 tw-bg-green-500 tw-text-white tw-py-2 tw-px-4 tw-rounded-full"
         >
           <FaUserCircle className="tw-text-2xl" />
           <span>{userName}</span>

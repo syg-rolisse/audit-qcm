@@ -15,6 +15,7 @@ Install [Bootstrap Icons](https://www.npmjs.com/package/bootstrap-icons)—inclu
 npm i bootstrap-icons
 {{< /highlight >}}
 {{< /md >}}
+
   </div>
   <div class="col-md-4">
 {{< md >}}
@@ -23,6 +24,7 @@ npm i bootstrap-icons
 
 <a class="btn btn-outline-primary" href="https://github.com/twbs/icons/releases/latest/">Download latest ZIP</a>
 {{< /md >}}
+
   </div>
   <div class="col-md-4">
 {{< md >}}
@@ -30,6 +32,7 @@ npm i bootstrap-icons
 Include the icon fonts stylesheet—in your website `<head>` or via `@import` in CSS—from our CDN and get started in seconds. [See icon font docs](#icon-font) for examples.
 
 {{< highlight html >}}
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@{{< param version >}}/font/bootstrap-icons.css">
 {{< /highlight >}}
 
@@ -37,6 +40,7 @@ Include the icon fonts stylesheet—in your website `<head>` or via `@import` in
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@{{< param version >}}/font/bootstrap-icons.css");
 {{< /highlight >}}
 {{< /md >}}
+
   </div>
 </div>
 
@@ -64,6 +68,7 @@ Use the SVG sprite to insert any icon through the `<use>` element. Use the icon'
 
 **Heads up!** There's an issue with Chrome where [`<use>` doesn't work across domains](https://bugs.chromium.org/p/chromium/issues/detail?id=470601).
 {{< /md >}}
+
   </div>
   <div class="col-md-8">
 {{< example >}}
@@ -88,7 +93,7 @@ Copy the Bootstrap Icons SVGs to your directory of choice and reference them lik
 {{< /md >}}
   </div>
   <div class="col-md-8">
-    {{< example >}}<img src="/assets/img/bootstrap.svg" alt="Bootstrap" width="32" height="32">{{< /example >}}
+    {{< example >}}<img src="./assets/img/bootstrap.svg" alt="Bootstrap" width="32" height="32">{{< /example >}}
   </div>
 </div>
 
@@ -100,6 +105,7 @@ Icon fonts with classes for every icon are also included for Bootstrap Icons. In
 
 Use `font-size` and `color` to change the icon appearance.
 {{< /md >}}
+
   </div>
   <div class="col-md-8">
     {{< example >}}<i class="bi-alarm"></i>{{< /example >}}
@@ -115,6 +121,7 @@ You can also use the SVG within your CSS (**be sure to escape any characters**, 
 
 The `viewBox` attribute is required if you wish to resize icons with `background-size`. Note that the `xmlns` attribute is required.
 {{< /md >}}
+
   </div>
   <div class="col-md-8">
 {{< highlight css >}}
@@ -128,6 +135,7 @@ The `viewBox` attribute is required if you wish to resize icons with `background
 }
 
 {{< /highlight >}}
+
   </div>
 </div>
 
@@ -162,11 +170,11 @@ For purely decorative icons, add `aria-hidden="true"`. Otherwise, provide an app
   </div>
   <div class="col-md-8">
     <div class="bd-example">
-      <img src="/assets/img/bootstrap.svg" alt="Bootstrap" width="32" height="32">
+      <img src="./assets/img/bootstrap.svg" alt="Bootstrap" width="32" height="32">
     </div>
 {{< highlight html >}}
 <!-- alt="..." on <img> element -->
-<img src="/assets/img/bootstrap.svg" alt="Bootstrap" ...>
+<img src="./assets/img/bootstrap.svg" alt="Bootstrap" ...>
 {{< /highlight >}}
     <div class="bd-example">
       <i class="bi-github" role="img" style={{font-size: 2em" aria-label="GitHub"></i>
@@ -219,5 +227,6 @@ Known issues include:
 
 Found another issue with SVGs we should note? Please open [an issue]({{< param repo >}}/issues) to share details.
 {{< /md >}}
+
   </div>
 </div>

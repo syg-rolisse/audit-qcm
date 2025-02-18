@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 //import { Outlet } from "react-router-dom";
-//import AuthHeader from "../components/AuthHeader";
-import Offcanvas from "../components/Offcanvas";
+import AuthHeader from "./AuthHeader";
+import Offcanvas from "./Offcanvas";
 import AuthContainer from "../pages/auth/AuthContainer";
 
 const AuthMainLayout = () => {
@@ -13,7 +13,7 @@ const AuthMainLayout = () => {
       // "assets/libs/bootstrap/js/bootstrap.bundle.min.js",
       // "assets/js/defaultmenu.min.js",
       // "assets/libs/node-waves/waves.min.js",
-      // "assets/js/sticky.js",
+      // // "assets/js/sticky.js",
       // "assets/libs/simplebar/simplebar.min.js",
       // "assets/js/simplebar.js",
       // "assets/libs/@simonwep/pickr/pickr.es5.min.js",
@@ -21,14 +21,6 @@ const AuthMainLayout = () => {
       // "assets/js/date-range.js",
       // "assets/libs/apexcharts/apexcharts.min.js",
       // "assets/js/index3.js",
-      // "assets/js/custom-switcher.min.js",
-
-      /* Modal */
-      // "assets/libs/prismjs/prism.js",
-      // "assets/js/prism-custom.js",
-      // "assets/js/modal.js",
-      /* Modal */
-
       // "assets/js/custom.js",
     ];
 
@@ -74,18 +66,14 @@ const AuthMainLayout = () => {
       <Offcanvas />
 
       <div className="page">
-        {/* <AuthHeader /> */}
+        <AuthHeader />
 
-        <AuthContainer>
-
-        </AuthContainer>
+        <AuthContainer></AuthContainer>
 
         {/* <div className="-tw-mt-48">
           <Outlet />
         </div> */}
       </div>
-
-    
     </div>
   );
 };
