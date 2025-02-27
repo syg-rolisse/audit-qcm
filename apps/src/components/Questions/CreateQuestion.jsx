@@ -5,7 +5,12 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import axiosInstance from "../../config/axiosConfig";
 
-function CreateQuestion({ domainId, currentQuestionId, refreshQuestion }) {
+function CreateQuestion({
+  domainId,
+  forceUpdate,
+  currentQuestionId,
+  refreshQuestion,
+}) {
   const [currentQuestion, setCurrentQuestion] = useState();
   const prevQuestionIdRef = useRef();
   const addQuestionLinkRef = useRef();
@@ -138,19 +143,16 @@ function CreateQuestion({ domainId, currentQuestionId, refreshQuestion }) {
   };
 
   useEffect(() => {
-    console.log(currentQuestionId);
-
-    if (currentQuestionId && currentQuestionId !== prevQuestionIdRef.current) {
+    if (currentQuestionId) {
       prevQuestionIdRef.current = currentQuestionId;
       getQuestion.mutate({ currentQuestionId });
       if (addQuestionLinkRef.current) {
         addQuestionLinkRef.current.click();
       }
     } else {
-      console.log(currentQuestionId);
       reset();
     }
-  }, [currentQuestionId]);
+  }, [currentQuestionId, forceUpdate]);
 
   useEffect(() => {
     if (currentQuestion) {
@@ -319,6 +321,7 @@ function CreateQuestion({ domainId, currentQuestionId, refreshQuestion }) {
 CreateQuestion.propTypes = {
   currentQuestionId: PropTypes.number,
   domainId: PropTypes.number,
+  forceUpdate: PropTypes.bool,
   refreshQuestion: PropTypes.func,
 };
 

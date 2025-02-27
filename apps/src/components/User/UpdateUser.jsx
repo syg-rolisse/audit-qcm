@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import axiosInstance from "../../config/axiosConfig";
 import { SocketContext } from "../../context/socket";
 
-function CreateUser({ currentUserId, refreshUserList }) {
+function CreateUser({ currentUserId, forceUpdate, refreshUserList }) {
   const [currentUser, setCurrentUser] = useState();
   const prevUserIdRef = useRef();
   const addUserLinkRef = useRef();
@@ -122,14 +122,14 @@ function CreateUser({ currentUserId, refreshUserList }) {
   };
 
   useEffect(() => {
-    if (currentUserId && currentUserId !== prevUserIdRef.current) {
+    if (currentUserId) {
       prevUserIdRef.current = currentUserId;
       getUser.mutate({ currentUserId });
       if (addUserLinkRef.current) {
         addUserLinkRef.current.click();
       }
     }
-  }, [currentUserId]);
+  }, [currentUserId, forceUpdate]);
 
   useEffect(() => {
     if (currentUser) {
@@ -339,6 +339,7 @@ function CreateUser({ currentUserId, refreshUserList }) {
 
 CreateUser.propTypes = {
   currentUserId: PropTypes.number,
+  forceUpdate: PropTypes.bool,
   refreshUserList: PropTypes.func,
 };
 

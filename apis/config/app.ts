@@ -38,3 +38,22 @@ export const http = defineConfig({
     sameSite: 'lax',
   },
 })
+
+export const logger = {
+  enabled: true,
+  level: 'debug', // ✅ Enregistre tous les niveaux de log
+  name: 'adonis-app',
+  transport: {
+    target: 'pino/file',
+    options: {
+      destination: './logs/adonis.log', // ✅ Écrit les logs dans un fichier
+    },
+
+    useOnlyCustomLevels: true, // ✅ Utilise des niveaux textuels au lieu de chiffres
+    formatters: {
+      level(label: string) {
+        return { level: label } // ✅ Affiche "level": "info" au lieu de "level": 50
+      },
+    },
+  },
+}

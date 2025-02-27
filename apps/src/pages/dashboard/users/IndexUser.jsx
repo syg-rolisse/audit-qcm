@@ -16,6 +16,7 @@ function IndexUser() {
   const [currentUserId, setCurrentUserId] = useState();
   const [currentDeleteUserId, setDeleteUserId] = useState();
   const [status] = useState(false);
+  const [forceUpdate, setForceUpdate] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
 
   const fetchUsers = useMutation(
@@ -79,6 +80,7 @@ function IndexUser() {
 
   const handleEditClick = (userId) => {
     setCurrentUserId(userId);
+    setForceUpdate((prev) => !prev);
   };
 
   const handleDeleteClick = (userId) => {
@@ -126,6 +128,7 @@ function IndexUser() {
                 <div className="btn-group btn-sm">
                   <UpdateUser
                     currentUserId={currentUserId}
+                    forceUpdate={forceUpdate}
                     refreshUserList={refreshUserList}
                   />
                 </div>

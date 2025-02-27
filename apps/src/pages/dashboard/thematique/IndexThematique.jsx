@@ -15,6 +15,7 @@ function IndexThematique() {
   const [currentThematiqueId, setThematiqueId] = useState();
   const [currentDeleteThematiqueId, setDeleteThematiqueId] = useState();
   const [errorMessage, setErrorMessage] = useState();
+  const [forceUpdate, setForceUpdate] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const { shouldRefreshThematique } = useSocketEvents();
   //const [status] = useState(true);
@@ -60,12 +61,13 @@ function IndexThematique() {
     fetchThematiques.mutate({ page, perpage });
   }, [page, perpage]);
 
-  const handleEditClick = (domainId) => {
-    setThematiqueId(domainId);
+  const handleEditClick = (thematiqueId) => {
+    setThematiqueId(thematiqueId);
+    setForceUpdate((prev) => !prev);
   };
 
-  const handleDeleteClick = (domainId) => {
-    setDeleteThematiqueId(domainId);
+  const handleDeleteClick = (thematiqueId) => {
+    setDeleteThematiqueId(thematiqueId);
   };
 
   const handleSearchChange = (e) => {
@@ -126,6 +128,7 @@ function IndexThematique() {
                 <div className="btn-group btn-sm">
                   <CreateThematique
                     currentThematiqueId={currentThematiqueId}
+                    forceUpdate={forceUpdate}
                     refreshThematique={refreshThematique}
                   />
                 </div>

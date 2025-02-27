@@ -6,7 +6,11 @@ import toast from "react-hot-toast";
 import axiosInstance from "../../config/axiosConfig";
 import { SocketContext } from "../../context/socket";
 
-function CreateThematique({ currentThematiqueId, refreshThematique }) {
+function CreateThematique({
+  currentThematiqueId,
+  forceUpdate,
+  refreshThematique,
+}) {
   const [currentThematique, setCurrentThematique] = useState(null);
   // eslint-disable-next-line no-unused-vars
   const [isConnected, setIsConnected] = useState(false);
@@ -146,15 +150,12 @@ function CreateThematique({ currentThematiqueId, refreshThematique }) {
   };
 
   useEffect(() => {
-    if (
-      currentThematiqueId &&
-      currentThematiqueId !== prevThematiqueIdRef.current
-    ) {
+    if (currentThematiqueId) {
       prevThematiqueIdRef.current = currentThematiqueId;
       fetchThematique.mutate(currentThematiqueId);
       addThematiqueLinkRef.current?.click();
     }
-  }, [currentThematiqueId]);
+  }, [currentThematiqueId, forceUpdate]);
 
   useEffect(() => {
     if (currentThematique) {
@@ -394,6 +395,7 @@ function CreateThematique({ currentThematiqueId, refreshThematique }) {
 
 CreateThematique.propTypes = {
   currentThematiqueId: PropTypes.number,
+  forceUpdate: PropTypes.bool,
   refreshThematique: PropTypes.func.isRequired,
 };
 

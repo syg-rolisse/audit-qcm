@@ -6,7 +6,11 @@ import toast from "react-hot-toast";
 import axiosInstance from "../../config/axiosConfig";
 import { SocketContext } from "../../context/socket";
 
-function UpdatePermission({ currentPermissionId, refreshPermissionList }) {
+function UpdatePermission({
+  currentPermissionId,
+  forceUpdate,
+  refreshPermissionList,
+}) {
   const [currentPermission, setCurrentPermission] = useState();
   const prevPermissionIdRef = useRef();
   const addPermissionLinkRef = useRef();
@@ -79,17 +83,14 @@ function UpdatePermission({ currentPermissionId, refreshPermissionList }) {
   };
 
   useEffect(() => {
-    if (
-      currentPermissionId &&
-      currentPermissionId !== prevPermissionIdRef.current
-    ) {
+    if (currentPermissionId) {
       prevPermissionIdRef.current = currentPermissionId;
       getPermission.mutate({ currentPermissionId });
       if (addPermissionLinkRef.current) {
         addPermissionLinkRef.current.click();
       }
     }
-  }, [currentPermissionId]);
+  }, [currentPermissionId, forceUpdate]);
 
   useEffect(() => {
     if (currentPermission) {
@@ -209,7 +210,6 @@ function UpdatePermission({ currentPermissionId, refreshPermissionList }) {
                       Modifier une permission
                     </label>
                   </div>
-              
                 </div>
                 <div className="tw-border tw-p-4 tw-rounded-lg mb-4">
                   <h6 className="text-xl font-semibold mb-3">
@@ -492,6 +492,7 @@ function UpdatePermission({ currentPermissionId, refreshPermissionList }) {
 
 UpdatePermission.propTypes = {
   currentPermissionId: PropTypes.string,
+  forceUpdate: PropTypes.bool,
   refreshPermissionList: PropTypes.func.isRequired,
 };
 

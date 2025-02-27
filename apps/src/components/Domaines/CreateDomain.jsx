@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import axiosInstance from "../../config/axiosConfig";
 import { SocketContext } from "../../context/socket";
-function CreateDomain({ currentDomainId, refreshDomain }) {
+function CreateDomain({ currentDomainId, forceUpdate, refreshDomain }) {
   const [currentDomain, setCurrentDomain] = useState();
   const [thematiqueList, setThematiqueList] = useState([]);
   const prevDomainIdRef = useRef();
@@ -31,7 +31,8 @@ function CreateDomain({ currentDomainId, refreshDomain }) {
         console.log(error);
 
         toast.error("Erreur de récupération des thématiques", {
-          duration : 12000 , style: {
+          duration: 12000,
+          style: {
             zIndex: 9999,
           },
         });
@@ -47,14 +48,20 @@ function CreateDomain({ currentDomainId, refreshDomain }) {
 
     if (validationErrors && Array.isArray(validationErrors)) {
       validationErrors.forEach((err) => {
-        toast.error(err.message, { duration : 12000 , style: {
+        toast.error(err.message, {
+          duration: 12000,
+          style: {
             zIndex: 9999,
-          }, });
+          },
+        });
       });
     } else {
-      toast.error(error?.response?.data?.message, { duration : 12000 , style: {
-            zIndex: 9999,
-          }, });
+      toast.error(error?.response?.data?.message, {
+        duration: 12000,
+        style: {
+          zIndex: 9999,
+        },
+      });
     }
   };
 
@@ -130,14 +137,15 @@ function CreateDomain({ currentDomainId, refreshDomain }) {
   };
 
   useEffect(() => {
-    if (currentDomainId && currentDomainId !== prevDomainIdRef.current) {
+    if (currentDomainId) {
       prevDomainIdRef.current = currentDomainId;
       getDomain.mutate({ currentDomainId });
+
       if (addDomainLinkRef.current) {
         addDomainLinkRef.current.click();
       }
     }
-  }, [currentDomainId]);
+  }, [currentDomainId, forceUpdate]);
 
   useEffect(() => {
     if (currentDomain) {
@@ -325,6 +333,7 @@ function CreateDomain({ currentDomainId, refreshDomain }) {
 
 CreateDomain.propTypes = {
   currentDomainId: PropTypes.number,
+  forceUpdate: PropTypes.bool,
   refreshDomain: PropTypes.func,
 };
 

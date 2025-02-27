@@ -6,8 +6,6 @@ app.ready(() => {
 
   const io = Ws.io
   io?.on('connection', (socket) => {
-    console.log('Nouvelle connexion:', socket.id)
-
     socket.on('thematique_created', () => {
       socket.broadcast.emit('thematique_created')
     })

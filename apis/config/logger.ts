@@ -1,6 +1,15 @@
 import env from '#start/env'
+//import app from '@adonisjs/core/services/app' targets
+import { defineConfig } from '@adonisjs/core/logger'
 import app from '@adonisjs/core/services/app'
-import { defineConfig, targets } from '@adonisjs/core/logger'
+
+import { existsSync, mkdirSync } from 'node:fs'
+
+// Vérifier si le dossier logs existe, sinon le créer
+const logDir = './logs'
+if (!existsSync(logDir)) {
+  mkdirSync(logDir)
+}
 
 const loggerConfig = defineConfig({
   default: 'app',
@@ -15,10 +24,17 @@ const loggerConfig = defineConfig({
       name: env.get('APP_NAME'),
       level: env.get('LOG_LEVEL'),
       transport: {
-        targets: targets()
-          .pushIf(!app.inProduction, targets.pretty())
-          .pushIf(app.inProduction, targets.file({ destination: 1 }))
-          .toArray(),
+        targets: [
+          ...(!app.inProduction ? [{ target: 'pino-pretty', level: 'info' }] : []),
+          ...(app.inProduction ? [{ target: 'pino/file', level: 'info' }] : []),
+        ],
+        // targets: targets()
+        //   .push(targets.file({ destination: './logs/app.log' }))
+        //   .push(targets.file({ destination: 1 }))
+        //   //.pushIf(!app.inProduction, targets.pretty())
+        //   //.pushIf(!app.inProduction, targets.pretty())
+        //   //.pushIf(app.inProduction, targets.file({ destination: './logs/app.log' }))
+        //   .toArray(),
       },
     },
   },

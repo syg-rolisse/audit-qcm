@@ -18,6 +18,7 @@ function IndexDomaine({ onSwitch }) {
   const [status] = useState(true);
   const [errorMessage, setErrorMessage] = useState();
   const [searchTerm, setSearchTerm] = useState("");
+  const [forceUpdate, setForceUpdate] = useState(false);
   const fetchDomains = useMutation(
     (params) =>
       axiosInstance.get(
@@ -74,6 +75,7 @@ function IndexDomaine({ onSwitch }) {
 
   const handleEditClick = (domainId) => {
     setDomainId(domainId);
+    setForceUpdate((prev) => !prev); 
   };
 
   const handleDeleteClick = (domainId) => {
@@ -122,6 +124,7 @@ function IndexDomaine({ onSwitch }) {
                 <div className="btn-group btn-sm">
                   <CreateDomain
                     currentDomainId={currentDomainId}
+                    forceUpdate={forceUpdate}
                     refreshDomain={refreshDomain}
                   />
                 </div>
@@ -151,7 +154,7 @@ function IndexDomaine({ onSwitch }) {
                         placeholder="Recherchez un domaine ici..."
                         aria-label="Search Input"
                         value={searchTerm}
-                       // onChange={handleSearchChange}
+                        // onChange={handleSearchChange}
                       />
                     </div>
                   </div>

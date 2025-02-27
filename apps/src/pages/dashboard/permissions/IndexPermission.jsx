@@ -11,6 +11,7 @@ function IndexPermission() {
   const [page, setPage] = useState(1);
   const [perpage, setPerPage] = useState(5);
   const [currentPermissionId, setDomainId] = useState();
+  const [forceUpdate, setForceUpdate] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
   const fetchPermission = useMutation(
     () =>
@@ -42,8 +43,9 @@ function IndexPermission() {
     fetchPermission.mutate();
   }, [page, perpage]); // Réexécuter lorsque la page ou la taille de page change
 
-  const handleEditClick = (userId) => {
-    setDomainId(userId);
+  const handleEditClick = (permissionId) => {
+    setDomainId(permissionId);
+    setForceUpdate((prev) => !prev);
   };
 
   const handlePerPageChange = (e) => {
@@ -66,10 +68,7 @@ function IndexPermission() {
         </div>
         <div className="col col-auto">
           <div className="btn-list">
-            <a
-              className="btn btn-outline-light border"
-              href="#"
-            >
+            <a className="btn btn-outline-light border" href="#">
               <i className="fe fe-help-circle me-1 mt-1"></i> Support
             </a>
             <a
@@ -90,6 +89,7 @@ function IndexPermission() {
               <div className="btn-group btn-sm">
                 <UpdatePermission
                   currentPermissionId={currentPermissionId}
+                  forceUpdate={forceUpdate}
                   refreshPermissionList={refreshPermissionList}
                 />
               </div>

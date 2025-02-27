@@ -21,6 +21,7 @@ function IndexQuestion({ domainId, onSwitch }) {
   const [currentDeleteQuestionId, setDeleteQuestionId] = useState();
   const [currentDeleteAnswerId, setDeleteAnswerId] = useState();
   const [status] = useState(true);
+  const [forceUpdate, setForceUpdate] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
   const addAnswerLinkRef = useRef();
 
@@ -199,6 +200,7 @@ function IndexQuestion({ domainId, onSwitch }) {
   }, [page, perpage]);
 
   const handleEditClick = (currentDomainId) => {
+    setForceUpdate((prev) => !prev);
     setQuestionId(currentDomainId);
   };
 
@@ -258,6 +260,7 @@ function IndexQuestion({ domainId, onSwitch }) {
                 <div className="btn-group btn-sm">
                   <CreateQuestion
                     currentQuestionId={currentQuestionId}
+                    forceUpdate={forceUpdate}
                     domainId={domainId}
                     refreshQuestion={refreshQuestion}
                   />

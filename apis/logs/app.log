@@ -1,0 +1,19 @@
+{"level":30,"time":1740045734774,"pid":18312,"hostname":"OADEVELOP-PC","msg":"started HTTP server on 0.0.0.0:62982"}
+{"level":30,"time":1740045813800,"pid":9808,"hostname":"OADEVELOP-PC","msg":"started HTTP server on 0.0.0.0:3333"}
+{"level":30,"time":1740046026374,"pid":9808,"hostname":"OADEVELOP-PC","msg":"Une requête a été reçue"}
+{"level":50,"time":1740046026374,"pid":9808,"hostname":"OADEVELOP-PC","msg":"Une erreur est survenue"}
+{"level":30,"time":1740046234500,"pid":9808,"hostname":"OADEVELOP-PC","msg":"Requête de connexion reçue"}
+{"level":50,"time":1740046236776,"pid":9808,"hostname":"OADEVELOP-PC","msg":"Erreur lors de la connexion de l'utilisateur: getaddrinfo ENOTFOUND audit-qcm-db"}
+{"level":30,"time":1740046318009,"pid":14208,"hostname":"OADEVELOP-PC","msg":"started HTTP server on 0.0.0.0:3333"}
+{"level":30,"time":1740046334620,"pid":8964,"hostname":"OADEVELOP-PC","msg":"started HTTP server on 0.0.0.0:3333"}
+{"level":30,"time":1740046346800,"pid":15056,"hostname":"OADEVELOP-PC","msg":"started HTTP server on 0.0.0.0:3333"}
+{"level":30,"time":1740046361953,"pid":15256,"hostname":"OADEVELOP-PC","msg":"started HTTP server on 0.0.0.0:3333"}
+{"level":30,"time":1740046384174,"pid":15256,"hostname":"OADEVELOP-PC","msg":"Requête de connexion reçue"}
+{"level":50,"time":1740046384217,"pid":15256,"hostname":"OADEVELOP-PC","msg":"Erreur lors de la connexion de l'utilisateur: connect ECONNREFUSED 127.0.0.1:5432"}
+{"level":30,"time":1740048213560,"pid":3604,"hostname":"OADEVELOP-PC","msg":"started HTTP server on 0.0.0.0:3333"}
+{"level":30,"time":1740048225066,"pid":3604,"hostname":"OADEVELOP-PC","msg":"Requête de connexion reçue"}
+{"level":50,"time":1740048225233,"pid":3604,"hostname":"OADEVELOP-PC","msg":"Erreur lors de la connexion de l'utilisateur: Invalid user credentials"}
+{"level":30,"time":1740048247212,"pid":3604,"hostname":"OADEVELOP-PC","msg":"Requête de connexion reçue"}
+{"level":40,"time":1740048247213,"pid":3604,"hostname":"OADEVELOP-PC","msg":"Tentative de connexion avec un email inexistant: rolissemmmcodeur@gmail.com"}
+{"level":30,"time":1740066730902,"pid":3604,"hostname":"OADEVELOP-PC","msg":"Requête de connexion reçue"}
+{"level":40,"time":1740066730912,"pid":3604,"hostname":"OADEVELOP-PC","msg":"Tentative de connexion avec un email inexistant: rolisse.adjevi@oraadvices.com"}

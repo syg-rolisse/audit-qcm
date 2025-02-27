@@ -7,7 +7,7 @@ export default function Footer() {
       <footer className="footer mt-auto py-3 bg-white text-center">
         <div className="container">
           <span className="text-muted">
-            Copyright © {currentYear}{" "}
+            Copyright © {currentYear}
             <span className="tw-text-orange-600"> &nbsp;Ora ADVICES&nbsp;</span>
             Tous droit réservés
           </span>

@@ -7,6 +7,8 @@ import mail from '@adonisjs/mail/services/main'
 import { DateTime } from 'luxon'
 import crypto from 'node:crypto'
 import { processErrorMessages } from '../../helpers/remove_duplicate.js'
+import logger from '@adonisjs/core/services/logger'
+import { logFormatMessage } from '../../helpers/log_format_message.js'
 
 export default class AuthController {
   async index() {
@@ -17,9 +19,12 @@ export default class AuthController {
     try {
       const { email, password } = await request.validateUsing(loginValidator)
 
+      logger.info(logFormatMessage(request, `${email} tente de se connecter `))
+
       // Chercher l'utilisateur par email
       const userConnected = await User.findBy('email', email)
       if (!userConnected) {
+        logger.warn(`Tentative de connexion avec un email inexistant: ${email}`)
         return response.badRequest({
           status: 400,
           error: "L'adresse e-mail fournie n'est pas retrouvée.",
@@ -29,6 +34,7 @@ export default class AuthController {
       // Vérifier les informations d'identification
       const isValidCredentials = await User.verifyCredentials(email, password)
       if (!isValidCredentials) {
+        logger.warn(`Échec de connexion: mot de passe incorrect pour ${email}`)
         return response.badRequest({
           status: 400,
           error: "Les informations d'identification ne sont pas valides. Veuillez réessayer.",
@@ -37,6 +43,7 @@ export default class AuthController {
 
       // Vérifier que l'email de l'utilisateur est confirmé
       if (!userConnected?.$attributes?.validEmail) {
+        logger.warn(`Connexion refusée: email non validé pour ${email}`)
         return response.badRequest({
           status: 400,
           error: "Votre mail n'a pas été confirmé. Vérifiez votre boîte mail.",
@@ -45,6 +52,7 @@ export default class AuthController {
 
       // Vérifier que le compte est actif
       if (!userConnected?.$attributes?.status) {
+        logger.warn(`Connexion refusée: compte inactif pour ${email}`)
         return response.badRequest({
           status: 400,
           error: 'Votre compte est inactif.',
@@ -54,11 +62,14 @@ export default class AuthController {
       // Créer un jeton d'accès pour l'utilisateur
       const token = await User.accessTokens.create(userConnected)
       if (!token) {
+        logger.error(`Erreur lors de la création du token pour ${email}`)
         return response.internalServerError({
           status: 500,
           error: 'Une erreur est survenue lors de la création du token. Veuillez réessayer.',
         })
       }
+
+      logger.info(`Utilisateur ${email} connecté avec succès`)
 
       // Retourner l'utilisateur avec le jeton
       return response.created({
@@ -76,9 +87,12 @@ export default class AuthController {
         },
       })
     } catch (error) {
-      console.log(error.message)
+      console.log(error)
 
-      // Gérer les erreurs spécifiques ou génériques
+      logger.error(`Erreur lors de la connexion de l'utilisateur: ${error.message}`, {
+        stack: error.stack,
+      })
+
       return response.badRequest({
         status: 400,
         error:
